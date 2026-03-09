@@ -27,9 +27,7 @@
             overflow-x: hidden;
         }
 
-        /* LIQUID LENS ENGINE 
-           Uses displacement to shift pixels without adding color
-        */
+        /* CORRECTED LIQUID LENS ENGINE */
         .nav-container {
             position: fixed;
             top: 25px;
@@ -48,25 +46,15 @@
             gap: 30px;
             border-radius: 100px;
             
-            /* High Saturation & Contrast for the 'Liquid' pop */
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(2px) saturate(200%) contrast(140%) brightness(110%);
-            -webkit-backdrop-filter: blur(2px) saturate(200%) contrast(140%) brightness(110%);
+            /* High-spec glass optics */
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(1px) saturate(200%) contrast(150%) brightness(110%);
+            -webkit-backdrop-filter: blur(1px) saturate(200%) contrast(150%) brightness(110%);
             
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 
                 0 20px 50px rgba(0, 0, 0, 0.9),
                 inset 0 1px 3px rgba(255, 255, 255, 0.4);
-        }
-
-        /* The physical lens edge highlight */
-        nav::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: 100px;
-            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.1);
-            pointer-events: none;
         }
 
         nav a {
@@ -82,8 +70,8 @@
         header {
             padding: 240px 20px 100px 20px;
             text-align: center;
-            /* This is where the magic happens: the displacement effect */
-            filter: url(#refraction);
+            /* Applies the warp effect to the content behind */
+            filter: url(#refraction-lens);
         }
 
         header h1 {
@@ -148,50 +136,46 @@
             font-size: 0.7rem;
         }
 
-        /* Hidden SVG Filter for Refraction Displacement */
         .svg-filters {
             position: absolute;
             visibility: hidden;
-            width: 0;
-            height: 0;
+            width: 0; height: 0;
         }
     </style>
 </head>
 <body>
 
     <svg class="svg-filters">
-        <filter id="refraction">
-            <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="1" result="noise" />
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" id="warp" xChannelSelector="R" yChannelSelector="G" />
+        <filter id="refraction-lens">
+            <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="2" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" id="lens-warp" xChannelSelector="R" yChannelSelector="G" />
         </filter>
     </svg>
 
-    <div class="glass-container">
-        <div class="nav-container">
-            <nav id="liquid-glass">
-                <a href="#home">Home</a>
-                <a href="#summary">Summary</a>
-                <a href="#theme">Theme</a>
-                <a href="#pov">Characters</a>
-                <a href="#glossary">Glossary</a>
-            </nav>
-        </div>
+    <div class="nav-container">
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#summary">Summary</a>
+            <a href="#theme">Theme</a>
+            <a href="#pov">Characters</a>
+            <a href="#glossary">Glossary</a>
+        </nav>
     </div>
 
     <header id="home">
-        <h1 id="hero-text">ALLIES</h1>
-        <p style="letter-spacing: 6px; opacity: 0.5;">BY: ALAN GRATZ</p>
+        <h1 id="hero-title">ALLIES</h1>
+        <p style="letter-spacing: 6px; opacity: 0.5; margin-top: 10px;">BY: ALAN GRATZ</p>
     </header>
 
     <div class="container">
         <section id="summary">
             <h2>Summary</h2>
-            <details name="main"><summary>View</summary><div class="expand-content"><p>[ ]</p></div></details>
+            <details name="allies"><summary>View</summary><div class="expand-content"><p>[ ]</p></div></details>
         </section>
 
         <section id="theme">
             <h2>Theme</h2>
-            <details name="main"><summary>View</summary><div class="expand-content"><p>[ ]</p></div></details>
+            <details name="allies"><summary>View</summary><div class="expand-content"><p>[ ]</p></div></details>
         </section>
 
         <section id="pov">
@@ -208,7 +192,7 @@
 
         <section id="glossary">
             <h2>Glossary</h2>
-            <details name="main"><summary>View</summary><div class="expand-content"><p>[ ]</p></div></details>
+            <details name="allies"><summary>View</summary><div class="expand-content"><p>[ ]</p></div></details>
         </section>
     </div>
 
@@ -217,19 +201,22 @@
     </footer>
 
     <script>
-        const warp = document.getElementById('warp');
-        const hero = document.getElementById('hero-text');
+        const lensWarp = document.getElementById('lens-warp');
+        const heroTitle = document.getElementById('hero-title');
         
         window.addEventListener('scroll', () => {
             const scroll = window.scrollY;
             
-            // This triggers the pixel shift only when content is near the nav bar
-            if (scroll < 300) {
-                // Adjusts the scale of the displacement (the 'bend')
-                warp.setAttribute('scale', (scroll / 15).toString());
-                hero.style.transform = `translateY(${scroll * 0.2}px)`;
+            // Refraction logic: Only warps when text is near top (under nav)
+            if (scroll < 350) {
+                // Negative scale creates the 'outward' magnification look
+                const intensity = (scroll / 12);
+                lensWarp.setAttribute('scale', intensity.toString());
+                
+                // Subtle lift to keep the text centered in the lens
+                heroTitle.style.transform = `translateY(${scroll * 0.15}px)`;
             } else {
-                warp.setAttribute('scale', '0');
+                lensWarp.setAttribute('scale', '0');
             }
         });
     </script>
