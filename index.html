@@ -29,10 +29,11 @@
             background-color: var(--bg);
             color: var(--text-main);
             line-height: 1.8;
+            overflow-x: hidden;
         }
 
-        /* REFRACTIVE GLASS ENGINE 
-           Simulates iPhone lens optics 
+        /* THE LIQUID REFRACTION ENGINE 
+           Uses multiple filters to warp content at the edges 
         */
         nav {
             position: fixed;
@@ -41,28 +42,41 @@
             transform: translateX(-50%);
             width: 85%;
             max-width: 750px;
-            padding: 0.8rem 2.2rem;
+            padding: 0.9rem 2.5rem;
             z-index: 1000;
             display: flex;
             justify-content: center;
             gap: 30px;
             
-            /* The Glass Core */
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(25px) saturate(220%) brightness(130%);
-            -webkit-backdrop-filter: blur(25px) saturate(220%) brightness(130%);
+            /* Glass Base */
+            background: rgba(255, 255, 255, 0.01);
             
-            /* The Refractive Edge (Double-Layered Border) */
-            border-radius: 60px;
-            border: 1px solid rgba(255, 255, 255, 0.18); 
-            outline: 1.5px solid rgba(255, 255, 255, 0.08); 
-            outline-offset: -2px;
-
-            /* Light Diffusion */
+            /* Refractive Stack: Blur + Saturation + Contrast Boost */
+            backdrop-filter: blur(20px) saturate(250%) contrast(110%) brightness(110%);
+            -webkit-backdrop-filter: blur(20px) saturate(250%) contrast(110%) brightness(110%);
+            
+            /* The Lens Geometry */
+            border-radius: 80px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            
+            /* Simulated Refraction Ring (The Edge Warp) */
             box-shadow: 
-                0 15px 45px rgba(0, 0, 0, 0.7),
-                inset 0 0 15px rgba(255, 255, 255, 0.08), /* Soft inner light */
-                inset 0 2px 4px rgba(255, 255, 255, 0.2); /* Top edge 'highlight' */
+                0 10px 40px rgba(0, 0, 0, 0.8),
+                inset 0 0 0 1.5px rgba(255, 255, 255, 0.1), /* Lens thickness */
+                inset 0 4px 10px rgba(255, 255, 255, 0.15); /* Top refraction highlight */
+            
+            /* This adds the "shimmer" as you scroll */
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        /* Simulates the content "shifting" as it enters the glass */
+        nav::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,255,255,0.05) 100%);
+            pointer-events: none;
         }
 
         nav a {
@@ -73,12 +87,13 @@
             font-size: 0.75rem;
             letter-spacing: 2px;
             opacity: 0.7;
-            transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative;
+            z-index: 2;
         }
 
         nav a:hover {
             opacity: 1;
-            text-shadow: 0 0 15px #ffffff;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
         }
 
         header {
@@ -90,13 +105,6 @@
             font-size: clamp(3.5rem, 12vw, 7rem);
             letter-spacing: 12px;
             text-transform: uppercase;
-        }
-
-        header p {
-            color: var(--text-dim);
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            margin-top: 10px;
         }
 
         .container {
@@ -117,7 +125,7 @@
             letter-spacing: 4px;
         }
 
-        /* Functional Accordion */
+        /* Auto-Closing Exclusive Accordion */
         details {
             background: var(--card-bg);
             border: 1px solid var(--border);
@@ -125,7 +133,6 @@
             border-radius: 15px;
             cursor: pointer;
             margin-bottom: 15px;
-            transition: border 0.3s;
         }
 
         details[open] {
@@ -139,15 +146,6 @@
             list-style: none;
         }
 
-        summary::before {
-            content: "[+] ";
-            color: var(--text-dim);
-        }
-
-        details[open] summary::before {
-            content: "[-] ";
-        }
-
         .expand-content {
             margin-top: 20px;
             color: var(--text-dim);
@@ -157,8 +155,9 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
+            justify-content: center;
         }
 
         .char-card summary {
@@ -170,11 +169,10 @@
             padding: 120px 20px;
             opacity: 0.2;
             font-size: 0.7rem;
-            letter-spacing: 3px;
         }
 
         @media (max-width: 600px) {
-            nav { width: 95%; gap: 15px; padding: 0.8rem 1rem; }
+            nav { width: 95%; gap: 12px; padding: 0.8rem 1rem; }
             nav a { font-size: 0.6rem; }
         }
     </style>
@@ -220,42 +218,42 @@
             <h2>Characters</h2>
             <div class="grid">
                 <details class="char-card" name="chars">
-                    <summary>DEE</summary>
+                    <summary>POV 01</summary>
                     <div class="expand-content">
                         <p>[ ]</p>
                     </div>
                 </details>
 
                 <details class="char-card" name="chars">
-                    <summary>SAM</summary>
+                    <summary>POV 02</summary>
                     <div class="expand-content">
                         <p>[ ]</p>
                     </div>
                 </details>
 
                 <details class="char-card" name="chars">
-                    <summary>JAMES</summary>
+                    <summary>POV 03</summary>
                     <div class="expand-content">
                         <p>[ ]</p>
                     </div>
                 </details>
 
                 <details class="char-card" name="chars">
-                    <summary>MONIQUE</summary>
+                    <summary>POV 04</summary>
                     <div class="expand-content">
                         <p>[ ]</p>
                     </div>
                 </details>
 
                 <details class="char-card" name="chars">
-                    <summary>DOROTHY</summary>
+                    <summary>POV 05</summary>
                     <div class="expand-content">
                         <p>[ ]</p>
                     </div>
                 </details>
 
                 <details class="char-card" name="chars">
-                    <summary>BILL</summary>
+                    <summary>POV 06</summary>
                     <div class="expand-content">
                         <p>[ ]</p>
                     </div>
