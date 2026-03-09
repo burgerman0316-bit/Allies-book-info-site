@@ -30,7 +30,7 @@
             overflow-x: hidden;
         }
 
-        /* CLASSIC GLASS NAV */
+        /* GLASS NAV */
         nav {
             position: fixed;
             top: 25px;
@@ -93,13 +93,13 @@
             letter-spacing: 4px;
         }
 
-        /* THE SLIDING DROPDOWN SYSTEM */
+        /* SLIDING DROPDOWN SYSTEM */
         details {
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 8px;
             margin-bottom: 15px;
-            overflow: hidden; /* Critical for the slide effect */
+            overflow: hidden;
             transition: border-color 0.3s ease;
         }
 
@@ -115,7 +115,6 @@
             outline: none;
         }
 
-        /* Content container that we measure for the height */
         .content-inner {
             padding: 0 20px 20px 20px;
             color: var(--text-dim);
@@ -139,38 +138,43 @@
 
         .event {
             position: relative;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
+        }
+
+        /* Timeline Dropdown Specifics */
+        .event details {
+            background: transparent;
+            border: 1px solid transparent;
+            margin-bottom: 0;
+        }
+        
+        .event details[open] {
+            background: var(--card-bg);
+            border-color: var(--border);
         }
 
         .event::before {
             content: '';
             position: absolute;
             left: -46px;
-            top: 5px;
+            top: 25px;
             width: 14px;
             height: 14px;
             border-radius: 50%;
             background: var(--bg);
             border: 2px solid #ffffff;
-            transition: 0.3s;
-        }
-
-        .event:hover::before {
-            background: #ffffff;
-            box-shadow: 0 0 10px #ffffff;
+            z-index: 2;
         }
 
         .event-time {
-            font-weight: bold;
-            color: var(--text-main);
-            display: block;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
+            color: #ffffff;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
         }
 
@@ -189,7 +193,7 @@
         <a href="#summary">Summary</a>
         <a href="#timeline">Timeline</a>
         <a href="#pov">Characters</a>
-        <a href="#glossary">Glossary</a>
+        <a href="#theme">Theme</a>
     </nav>
 
     <header id="home">
@@ -202,9 +206,9 @@
         <section id="summary">
             <h2>Summary</h2>
             <details>
-                <summary>View Summary</summary>
+                <summary>Book Overview</summary>
                 <div class="content-inner">
-                    <p>D-Day: June 6, 1944. A day that would change the course of history. Alan Gratz follows the perspectives of various young people caught in the chaos of the invasion.</p>
+                    <p>[ Type your summary here as you read... ]</p>
                 </div>
             </details>
         </section>
@@ -213,42 +217,56 @@
             <h2>D-Day Timeline</h2>
             <div class="timeline">
                 <div class="event">
-                    <span class="event-time">06:00 AM</span>
-                    <p>The invasion begins. Allied forces approach the beaches of Normandy.</p>
+                    <details>
+                        <summary><span class="event-time">01:00 AM</span></summary>
+                        <div class="content-inner"><p>[ ]</p></div>
+                    </details>
                 </div>
                 <div class="event">
-                    <span class="event-time">06:30 AM</span>
-                    <p>H-Hour: First wave of troops land on Omaha and Utah beaches.</p>
+                    <details>
+                        <summary><span class="event-time">06:30 AM</span></summary>
+                        <div class="content-inner"><p>[ ]</p></div>
+                    </details>
                 </div>
                 <div class="event">
-                    <span class="event-time">12:00 PM</span>
-                    <p>Fighting continues inland as paratroopers secure key bridges.</p>
+                    <details>
+                        <summary><span class="event-time">10:00 AM</span></summary>
+                        <div class="content-inner"><p>[ ]</p></div>
+                    </details>
                 </div>
                 <div class="event">
-                    <span class="event-time">Midnight</span>
-                    <p>The end of the first day; the beachheads are established.</p>
+                    <details>
+                        <summary><span class="event-time">02:00 PM</span></summary>
+                        <div class="content-inner"><p>[ ]</p></div>
+                    </details>
+                </div>
+                <div class="event">
+                    <details>
+                        <summary><span class="event-time">Midnight</span></summary>
+                        <div class="content-inner"><p>[ ]</p></div>
+                    </details>
                 </div>
             </div>
         </section>
 
         <section id="pov">
-            <h2>Characters</h2>
+            <h2>The Characters</h2>
             <div class="grid">
-                <details><summary>Dee Carpenter</summary><div class="content-inner"><p>An American soldier with a secret: he's actually a German immigrant.</p></div></details>
-                <details><summary>Samira</summary><div class="content-inner"><p>A young French girl working with the Resistance to find her mother.</p></div></details>
-                <details><summary>James</summary><div class="content-inner"><p>A Canadian paratrooper jumping into the dark to secure the inland front.</p></div></details>
-                <details><summary>Bill</summary><div class="content-inner"><p>A tank driver pushing forward through the chaos of the beaches.</p></div></details>
-                <details><summary>Monique</summary><div class="content-inner"><p>A girl on the beach who dreams of being a nurse amidst the battle.</p></div></details>
-                <details><summary>Henry</summary><div class="content-inner"><p>A Black American medic saving lives under heavy fire.</p></div></details>
+                <details><summary>Dee Carpenter</summary><div class="content-inner"><p>[ ]</p></div></details>
+                <details><summary>Samira</summary><div class="content-inner"><p>[ ]</p></div></details>
+                <details><summary>James</summary><div class="content-inner"><p>[ ]</p></div></details>
+                <details><summary>Henry Allen</summary><div class="content-inner"><p>[ ]</p></div></details>
+                <details><summary>Bill Knight</summary><div class="content-inner"><p>[ ]</p></div></details>
+                <details><summary>Monique</summary><div class="content-inner"><p>[ ]</p></div></details>
             </div>
         </section>
 
-        <section id="glossary">
-            <h2>Glossary</h2>
+        <section id="theme">
+            <h2>Theme</h2>
             <details>
-                <summary>View Glossary</summary>
+                <summary>Major Themes</summary>
                 <div class="content-inner">
-                    <p><strong>D-Day:</strong> The day (June 6, 1944) in World War II on which Allied forces invaded northern France.</p>
+                    <p>[ ]</p>
                 </div>
             </details>
         </section>
@@ -259,8 +277,6 @@
     </footer>
 
     <script>
-        // THE SLIDE ENGINE
-        // This makes the <details> elements slide open and closed smoothly
         class Accordion {
           constructor(el) {
             this.el = el;
@@ -296,7 +312,6 @@
             });
             
             this.animation.onfinish = () => this.onAnimationFinish(false);
-            this.animation.oncancel = () => this.isClosing = false;
           }
 
           open() {
@@ -319,7 +334,6 @@
             });
             
             this.animation.onfinish = () => this.onAnimationFinish(true);
-            this.animation.oncancel = () => this.isExpanding = false;
           }
 
           onAnimationFinish(open) {
@@ -331,7 +345,6 @@
           }
         }
 
-        // Apply the slide logic to every <details> on the page
         document.querySelectorAll('details').forEach((el) => {
           new Accordion(el);
         });
