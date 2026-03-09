@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LIT Circles Project | Allies By Alan Gratz</title>
-    <link rel="icon" type="image/x-icon" href="favicon a.png">
     <style>
         :root {
             --bg: #000000;
@@ -94,26 +93,17 @@
             letter-spacing: 4px;
         }
 
-        /* ANIMATED DROPDOWNS */
+        /* THE SLIDING DROPDOWN SYSTEM */
         details {
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 8px;
             margin-bottom: 15px;
-            overflow: hidden;
-            transition: border-color 0.4s ease, transform 0.2s ease;
+            overflow: hidden; /* Critical for the slide effect */
+            transition: border-color 0.3s ease;
         }
 
-        /* Hover lift effect */
-        details:hover {
-            border-color: #444;
-        }
-
-        /* Active Glow */
-        details[open] { 
-            border-color: #ffffff;
-            transform: scale(1.01);
-        }
+        details[open] { border-color: #ffffff; }
 
         summary {
             padding: 20px;
@@ -123,29 +113,12 @@
             list-style: none;
             cursor: pointer;
             outline: none;
-            transition: color 0.3s ease;
         }
 
-        details[open] summary {
-            color: #ffffff;
-        }
-
-        /* The Animation Trick */
-        .expand-content {
+        /* Content container that we measure for the height */
+        .content-inner {
             padding: 0 20px 20px 20px;
             color: var(--text-dim);
-            animation: slideDown 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        @keyframes slideDown {
-            from { 
-                opacity: 0; 
-                transform: translateY(-15px); 
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0); 
-            }
         }
 
         /* TIMELINE DESIGN */
@@ -230,8 +203,8 @@
             <h2>Summary</h2>
             <details>
                 <summary>View Summary</summary>
-                <div class="expand-content">
-                    <p>[ ]</p>
+                <div class="content-inner">
+                    <p>D-Day: June 6, 1944. A day that would change the course of history. Alan Gratz follows the perspectives of various young people caught in the chaos of the invasion.</p>
                 </div>
             </details>
         </section>
@@ -261,12 +234,12 @@
         <section id="pov">
             <h2>Characters</h2>
             <div class="grid">
-                <details><summary>POV 01</summary><div class="expand-content"><p>[ ]</p></div></details>
-                <details><summary>POV 02</summary><div class="expand-content"><p>[ ]</p></div></details>
-                <details><summary>POV 03</summary><div class="expand-content"><p>[ ]</p></div></details>
-                <details><summary>POV 04</summary><div class="expand-content"><p>[ ]</p></div></details>
-                <details><summary>POV 05</summary><div class="expand-content"><p>[ ]</p></div></details>
-                <details><summary>POV 06</summary><div class="expand-content"><p>[ ]</p></div></details>
+                <details><summary>Dee Carpenter</summary><div class="content-inner"><p>An American soldier with a secret: he's actually a German immigrant.</p></div></details>
+                <details><summary>Samira</summary><div class="content-inner"><p>A young French girl working with the Resistance to find her mother.</p></div></details>
+                <details><summary>James</summary><div class="content-inner"><p>A Canadian paratrooper jumping into the dark to secure the inland front.</p></div></details>
+                <details><summary>Bill</summary><div class="content-inner"><p>A tank driver pushing forward through the chaos of the beaches.</p></div></details>
+                <details><summary>Monique</summary><div class="content-inner"><p>A girl on the beach who dreams of being a nurse amidst the battle.</p></div></details>
+                <details><summary>Henry</summary><div class="content-inner"><p>A Black American medic saving lives under heavy fire.</p></div></details>
             </div>
         </section>
 
@@ -274,8 +247,8 @@
             <h2>Glossary</h2>
             <details>
                 <summary>View Glossary</summary>
-                <div class="expand-content">
-                    <p>[ ]</p>
+                <div class="content-inner">
+                    <p><strong>D-Day:</strong> The day (June 6, 1944) in World War II on which Allied forces invaded northern France.</p>
                 </div>
             </details>
         </section>
@@ -284,6 +257,85 @@
     <footer>
         <p>LIT CIRCLES PROJECT &bull; 2026</p>
     </footer>
+
+    <script>
+        // THE SLIDE ENGINE
+        // This makes the <details> elements slide open and closed smoothly
+        class Accordion {
+          constructor(el) {
+            this.el = el;
+            this.summary = el.querySelector('summary');
+            this.content = el.querySelector('.content-inner');
+            this.animation = null;
+            this.isClosing = false;
+            this.isExpanding = false;
+            this.summary.addEventListener('click', (e) => this.onClick(e));
+          }
+
+          onClick(e) {
+            e.preventDefault();
+            this.el.style.overflow = 'hidden';
+            if (this.isClosing || !this.el.open) {
+              this.open();
+            } else if (this.isExpanding || this.el.open) {
+              this.shrink();
+            }
+          }
+
+          shrink() {
+            this.isClosing = true;
+            const startHeight = `${this.el.offsetHeight}px`;
+            const endHeight = `${this.summary.offsetHeight}px`;
+            if (this.animation) this.animation.cancel();
+            
+            this.animation = this.el.animate({
+              height: [startHeight, endHeight]
+            }, {
+              duration: 400,
+              easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+            });
+            
+            this.animation.onfinish = () => this.onAnimationFinish(false);
+            this.animation.oncancel = () => this.isClosing = false;
+          }
+
+          open() {
+            this.el.style.height = `${this.el.offsetHeight}px`;
+            this.el.open = true;
+            window.requestAnimationFrame(() => this.expand());
+          }
+
+          expand() {
+            this.isExpanding = true;
+            const startHeight = `${this.el.offsetHeight}px`;
+            const endHeight = `${this.summary.offsetHeight + this.content.offsetHeight}px`;
+            if (this.animation) this.animation.cancel();
+            
+            this.animation = this.el.animate({
+              height: [startHeight, endHeight]
+            }, {
+              duration: 400,
+              easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+            });
+            
+            this.animation.onfinish = () => this.onAnimationFinish(true);
+            this.animation.oncancel = () => this.isExpanding = false;
+          }
+
+          onAnimationFinish(open) {
+            this.el.open = open;
+            this.animation = null;
+            this.isClosing = false;
+            this.isExpanding = false;
+            this.el.style.height = this.el.style.overflow = '';
+          }
+        }
+
+        // Apply the slide logic to every <details> on the page
+        document.querySelectorAll('details').forEach((el) => {
+          new Accordion(el);
+        });
+    </script>
 
 </body>
 </html>
