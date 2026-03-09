@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LIT Circles Project | Allies By Alan Gratz</title>
-    <link rel="icon" type="image/x-icon" href="favicon a.png">
     <style>
         :root {
             --bg: #000000;
@@ -28,8 +27,8 @@
             overflow-x: hidden;
         }
 
-        /* THE LIQUID ENGINE 
-           Combines high-saturate glass with a chromatic shift 
+        /* LIQUID LENS ENGINE 
+           Uses displacement to shift pixels without adding color
         */
         .nav-container {
             position: fixed;
@@ -49,25 +48,24 @@
             gap: 30px;
             border-radius: 100px;
             
-            /* Liquid Properties: 1px blur + High Color Distortion */
+            /* High Saturation & Contrast for the 'Liquid' pop */
             background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(1.5px) saturate(300%) contrast(150%) brightness(120%);
-            -webkit-backdrop-filter: blur(1.5px) saturate(300%) contrast(150%) brightness(120%);
+            backdrop-filter: blur(2px) saturate(200%) contrast(140%) brightness(110%);
+            -webkit-backdrop-filter: blur(2px) saturate(200%) contrast(140%) brightness(110%);
             
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.25);
             box-shadow: 
                 0 20px 50px rgba(0, 0, 0, 0.9),
-                inset 0 1px 4px rgba(255, 255, 255, 0.5), /* Surface tension highlight */
-                inset 0 -1px 2px rgba(255, 255, 255, 0.2);
+                inset 0 1px 3px rgba(255, 255, 255, 0.4);
         }
 
-        /* Chromatic Aberration Simulation on the edge */
-        nav::after {
+        /* The physical lens edge highlight */
+        nav::before {
             content: "";
             position: absolute;
-            inset: -1px;
+            inset: 0;
             border-radius: 100px;
-            background: linear-gradient(90deg, rgba(255,0,0,0.05), rgba(0,255,0,0.05), rgba(0,0,255,0.05));
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.1);
             pointer-events: none;
         }
 
@@ -79,20 +77,19 @@
             font-size: 0.75rem;
             letter-spacing: 2px;
             opacity: 0.8;
-            transition: 0.2s;
         }
 
         header {
             padding: 240px 20px 100px 20px;
             text-align: center;
+            /* This is where the magic happens: the displacement effect */
+            filter: url(#refraction);
         }
 
         header h1 {
             font-size: clamp(3.5rem, 12vw, 7rem);
             letter-spacing: 12px;
             text-transform: uppercase;
-            /* Target for the refraction script */
-            transition: transform 0.1s ease-out;
         }
 
         .container {
@@ -144,26 +141,41 @@
             gap: 20px;
         }
 
-        .char-card summary { text-align: center; }
-
         footer {
             text-align: center;
             padding: 120px 20px;
             opacity: 0.2;
             font-size: 0.7rem;
         }
+
+        /* Hidden SVG Filter for Refraction Displacement */
+        .svg-filters {
+            position: absolute;
+            visibility: hidden;
+            width: 0;
+            height: 0;
+        }
     </style>
 </head>
 <body>
 
-    <div class="nav-container">
-        <nav id="liquid-glass">
-            <a href="#home">Home</a>
-            <a href="#summary">Summary</a>
-            <a href="#theme">Theme</a>
-            <a href="#pov">Characters</a>
-            <a href="#glossary">Glossary</a>
-        </nav>
+    <svg class="svg-filters">
+        <filter id="refraction">
+            <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="1" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" id="warp" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+    </svg>
+
+    <div class="glass-container">
+        <div class="nav-container">
+            <nav id="liquid-glass">
+                <a href="#home">Home</a>
+                <a href="#summary">Summary</a>
+                <a href="#theme">Theme</a>
+                <a href="#pov">Characters</a>
+                <a href="#glossary">Glossary</a>
+            </nav>
+        </div>
     </div>
 
     <header id="home">
@@ -174,18 +186,12 @@
     <div class="container">
         <section id="summary">
             <h2>Summary</h2>
-            <details name="main">
-                <summary>View</summary>
-                <div class="expand-content"><p>[ ]</p></div>
-            </details>
+            <details name="main"><summary>View</summary><div class="expand-content"><p>[ ]</p></div></details>
         </section>
 
         <section id="theme">
             <h2>Theme</h2>
-            <details name="main">
-                <summary>View</summary>
-                <div class="expand-content"><p>[ ]</p></div>
-            </details>
+            <details name="main"><summary>View</summary><div class="expand-content"><p>[ ]</p></div></details>
         </section>
 
         <section id="pov">
@@ -202,10 +208,7 @@
 
         <section id="glossary">
             <h2>Glossary</h2>
-            <details name="main">
-                <summary>View</summary>
-                <div class="expand-content"><p>[ ]</p></div>
-            </details>
+            <details name="main"><summary>View</summary><div class="expand-content"><p>[ ]</p></div></details>
         </section>
     </div>
 
@@ -214,24 +217,19 @@
     </footer>
 
     <script>
-        // LIQUID REFRACTION SCRIPT
-        // This detects when content is behind the glass and "warps" it
-        const heroText = document.getElementById('hero-text');
+        const warp = document.getElementById('warp');
+        const hero = document.getElementById('hero-text');
         
         window.addEventListener('scroll', () => {
             const scroll = window.scrollY;
             
-            // When the title slides under the nav (approx 0-150px scroll)
-            if (scroll < 250) {
-                const warpAmount = 1 + (scroll / 2000); 
-                const colorShift = (scroll / 10);
-                
-                // Creates a magnifying refraction and a slight chromatic "oil slick" feel
-                heroText.style.transform = `scale(${warpAmount})`;
-                heroText.style.filter = `contrast(${100 + colorShift}%)`;
+            // This triggers the pixel shift only when content is near the nav bar
+            if (scroll < 300) {
+                // Adjusts the scale of the displacement (the 'bend')
+                warp.setAttribute('scale', (scroll / 15).toString());
+                hero.style.transform = `translateY(${scroll * 0.2}px)`;
             } else {
-                heroText.style.transform = `scale(1)`;
-                heroText.style.filter = `contrast(100%)`;
+                warp.setAttribute('scale', '0');
             }
         });
     </script>
