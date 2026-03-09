@@ -12,6 +12,8 @@
             --text-dim: #a0a0a0;
             --border: #222222;
             --card-bg: #0a0a0a;
+            --nav-w: 85%;
+            --nav-max-w: 750px;
         }
 
         * {
@@ -32,51 +34,49 @@
             overflow-x: hidden;
         }
 
-        /* THE LIQUID REFRACTION ENGINE 
-           Uses multiple filters to warp content at the edges 
+        /* LIQUID REFRACTION ENGINE 
+           The 'nav' handles the blur, while 'refractor' handles the pixel shift
         */
-        nav {
+        .glass-container {
             position: fixed;
             top: 25px;
             left: 50%;
             transform: translateX(-50%);
-            width: 85%;
-            max-width: 750px;
-            padding: 0.9rem 2.5rem;
+            width: var(--nav-w);
+            max-width: var(--nav-max-w);
             z-index: 1000;
+        }
+
+        nav {
+            position: relative;
+            width: 100%;
+            padding: 0.7rem 2.5rem;
             display: flex;
             justify-content: center;
             gap: 30px;
             
-            /* Glass Base */
-            background: rgba(255, 255, 255, 0.01);
+            /* Precision Refraction Stack */
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(1px) saturate(250%) contrast(130%) brightness(115%);
+            -webkit-backdrop-filter: blur(1px) saturate(250%) contrast(130%) brightness(115%);
             
-            /* Refractive Stack: Blur + Saturation + Contrast Boost */
-            backdrop-filter: blur(20px) saturate(250%) contrast(110%) brightness(110%);
-            -webkit-backdrop-filter: blur(20px) saturate(250%) contrast(110%) brightness(110%);
-            
-            /* The Lens Geometry */
-            border-radius: 80px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            
-            /* Simulated Refraction Ring (The Edge Warp) */
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
             box-shadow: 
-                0 10px 40px rgba(0, 0, 0, 0.8),
-                inset 0 0 0 1.5px rgba(255, 255, 255, 0.1), /* Lens thickness */
-                inset 0 4px 10px rgba(255, 255, 255, 0.15); /* Top refraction highlight */
-            
-            /* This adds the "shimmer" as you scroll */
-            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+                0 15px 45px rgba(0, 0, 0, 0.9),
+                inset 0 1px 3px rgba(255, 255, 255, 0.4);
+            overflow: hidden;
         }
 
-        /* Simulates the content "shifting" as it enters the glass */
-        nav::before {
-            content: "";
+        /* The Magnification/Refraction Shift */
+        .refraction-warp {
             position: absolute;
-            inset: -2px;
-            border-radius: inherit;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,255,255,0.05) 100%);
+            inset: 0;
+            border-radius: 100px;
             pointer-events: none;
+            /* This scales content passing through by 5% to simulate a lens */
+            transform: scale(1.05); 
+            z-index: -1;
         }
 
         nav a {
@@ -86,14 +86,7 @@
             text-transform: uppercase;
             font-size: 0.75rem;
             letter-spacing: 2px;
-            opacity: 0.7;
-            position: relative;
-            z-index: 2;
-        }
-
-        nav a:hover {
-            opacity: 1;
-            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+            opacity: 0.8;
         }
 
         header {
@@ -125,19 +118,16 @@
             letter-spacing: 4px;
         }
 
-        /* Auto-Closing Exclusive Accordion */
         details {
             background: var(--card-bg);
             border: 1px solid var(--border);
             padding: 20px;
-            border-radius: 15px;
+            border-radius: 8px;
             cursor: pointer;
             margin-bottom: 15px;
         }
 
-        details[open] {
-            border-color: #ffffff;
-        }
+        details[open] { border-color: #ffffff; }
 
         summary {
             font-weight: bold;
@@ -157,12 +147,9 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
-            justify-content: center;
         }
 
-        .char-card summary {
-            text-align: center;
-        }
+        .char-card summary { text-align: center; }
 
         footer {
             text-align: center;
@@ -170,22 +157,20 @@
             opacity: 0.2;
             font-size: 0.7rem;
         }
-
-        @media (max-width: 600px) {
-            nav { width: 95%; gap: 12px; padding: 0.8rem 1rem; }
-            nav a { font-size: 0.6rem; }
-        }
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#summary">Summary</a>
-        <a href="#theme">Theme</a>
-        <a href="#pov">Characters</a>
-        <a href="#glossary">Glossary</a>
-    </nav>
+    <div class="glass-container">
+        <nav>
+            <div class="refraction-warp"></div>
+            <a href="#home">Home</a>
+            <a href="#summary">Summary</a>
+            <a href="#theme">Theme</a>
+            <a href="#pov">Characters</a>
+            <a href="#glossary">Glossary</a>
+        </nav>
+    </div>
 
     <header id="home">
         <h1>ALLIES</h1>
@@ -196,8 +181,8 @@
 
         <section id="summary">
             <h2>Summary</h2>
-            <details name="group1">
-                <summary>View Summary</summary>
+            <details name="sections">
+                <summary>View</summary>
                 <div class="expand-content">
                     <p>[ ]</p>
                 </div>
@@ -206,8 +191,8 @@
 
         <section id="theme">
             <h2>Theme</h2>
-            <details name="group1">
-                <summary>View Theme</summary>
+            <details name="sections">
+                <summary>View</summary>
                 <div class="expand-content">
                     <p>[ ]</p>
                 </div>
@@ -217,54 +202,19 @@
         <section id="pov">
             <h2>Characters</h2>
             <div class="grid">
-                <details class="char-card" name="chars">
-                    <summary>POV 01</summary>
-                    <div class="expand-content">
-                        <p>[ ]</p>
-                    </div>
-                </details>
-
-                <details class="char-card" name="chars">
-                    <summary>POV 02</summary>
-                    <div class="expand-content">
-                        <p>[ ]</p>
-                    </div>
-                </details>
-
-                <details class="char-card" name="chars">
-                    <summary>POV 03</summary>
-                    <div class="expand-content">
-                        <p>[ ]</p>
-                    </div>
-                </details>
-
-                <details class="char-card" name="chars">
-                    <summary>POV 04</summary>
-                    <div class="expand-content">
-                        <p>[ ]</p>
-                    </div>
-                </details>
-
-                <details class="char-card" name="chars">
-                    <summary>POV 05</summary>
-                    <div class="expand-content">
-                        <p>[ ]</p>
-                    </div>
-                </details>
-
-                <details class="char-card" name="chars">
-                    <summary>POV 06</summary>
-                    <div class="expand-content">
-                        <p>[ ]</p>
-                    </div>
-                </details>
+                <details class="char-card" name="chars"><summary>Perspective 01</summary><div class="expand-content"><p>[ ]</p></div></details>
+                <details class="char-card" name="chars"><summary>Perspective 02</summary><div class="expand-content"><p>[ ]</p></div></details>
+                <details class="char-card" name="chars"><summary>Perspective 03</summary><div class="expand-content"><p>[ ]</p></div></details>
+                <details class="char-card" name="chars"><summary>Perspective 04</summary><div class="expand-content"><p>[ ]</p></div></details>
+                <details class="char-card" name="chars"><summary>Perspective 05</summary><div class="expand-content"><p>[ ]</p></div></details>
+                <details class="char-card" name="chars"><summary>Perspective 06</summary><div class="expand-content"><p>[ ]</p></div></details>
             </div>
         </section>
 
         <section id="glossary">
             <h2>Glossary</h2>
-            <details name="group1">
-                <summary>View Glossary</summary>
+            <details name="sections">
+                <summary>View</summary>
                 <div class="expand-content">
                     <p>[ ]</p>
                 </div>
