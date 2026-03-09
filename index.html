@@ -33,29 +33,36 @@
             overflow-x: hidden;
         }
 
-        /* Nav with Custom Rounded Divider */
+        /* Liquid Glass Navigation */
         nav {
-            background-color: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 1.5rem;
+            background-color: rgba(255, 255, 255, 0.03); /* Nearly transparent */
+            backdrop-filter: blur(15px); /* This creates the "glass" look */
+            -webkit-backdrop-filter: blur(15px); /* Support for Safari */
+            padding: 1.2rem;
             position: fixed;
-            width: 100%;
-            top: 0;
+            width: 95%; /* Pulled away from the sides */
+            top: 15px; /* Floating away from the top */
+            left: 2.5%; /* Centered horizontally */
             z-index: 1000;
             display: flex;
             justify-content: center;
-            gap: 30px;
+            gap: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle glass edge */
+            border-radius: 15px; /* Rounded corners for the whole bar */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8); /* Depth shadow */
         }
 
+        /* Rounded Divider inside the Liquid Glass */
         nav::after {
             content: "";
             position: absolute;
-            bottom: 0;
-            left: 10%;
-            right: 10%;
-            height: 5px;
-            background-color: var(--text-main);
-            border-radius: 10px;
+            bottom: 8px; /* Lifted slightly from the bottom of the nav */
+            left: 15%;
+            right: 15%;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.8); /* Soft white */
+            border-radius: 50px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); /* Slight glow */
         }
 
         nav a {
