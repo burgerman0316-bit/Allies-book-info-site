@@ -31,30 +31,38 @@
             line-height: 1.8;
         }
 
-        /* iPhone Liquid Glass Nav */
+        /* REFRACTIVE GLASS ENGINE 
+           Simulates iPhone lens optics 
+        */
         nav {
             position: fixed;
-            top: 10px;
+            top: 25px;
             left: 50%;
             transform: translateX(-50%);
-            width: 95%;
-            max-width: 800px;
-            padding: 1rem 2rem;
+            width: 85%;
+            max-width: 750px;
+            padding: 0.8rem 2.2rem;
             z-index: 1000;
             display: flex;
             justify-content: center;
             gap: 30px;
             
-            /* The Glass Effect */
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(12px) saturate(180%);
-            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            /* The Glass Core */
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(25px) saturate(220%) brightness(130%);
+            -webkit-backdrop-filter: blur(25px) saturate(220%) brightness(130%);
             
-            /* The "Liquid" Edge */
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 40px; /* Highly rounded like an iPhone dock */
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), 
-                        inset 0 0 10px rgba(255, 255, 255, 0.05);
+            /* The Refractive Edge (Double-Layered Border) */
+            border-radius: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.18); 
+            outline: 1.5px solid rgba(255, 255, 255, 0.08); 
+            outline-offset: -2px;
+
+            /* Light Diffusion */
+            box-shadow: 
+                0 15px 45px rgba(0, 0, 0, 0.7),
+                inset 0 0 15px rgba(255, 255, 255, 0.08), /* Soft inner light */
+                inset 0 2px 4px rgba(255, 255, 255, 0.2); /* Top edge 'highlight' */
         }
 
         nav a {
@@ -62,19 +70,19 @@
             text-decoration: none;
             font-weight: bold;
             text-transform: uppercase;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             letter-spacing: 2px;
-            opacity: 0.8;
-            transition: 0.3s;
+            opacity: 0.7;
+            transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         nav a:hover {
             opacity: 1;
-            text-shadow: 0 0 8px #fff;
+            text-shadow: 0 0 15px #ffffff;
         }
 
         header {
-            padding: 180px 20px 80px 20px;
+            padding: 240px 20px 100px 20px;
             text-align: center;
         }
 
@@ -84,6 +92,13 @@
             text-transform: uppercase;
         }
 
+        header p {
+            color: var(--text-dim);
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -91,31 +106,30 @@
         }
 
         section {
-            padding: 60px 0;
+            padding: 80px 0;
             border-bottom: 1px solid var(--border);
         }
 
         h2 {
             font-size: 1.8rem;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             text-transform: uppercase;
             letter-spacing: 4px;
         }
 
-        /* Expandable Accordion */
+        /* Functional Accordion */
         details {
             background: var(--card-bg);
             border: 1px solid var(--border);
             padding: 20px;
-            border-radius: 12px; /* Smoother corners */
+            border-radius: 15px;
             cursor: pointer;
             margin-bottom: 15px;
-            transition: 0.3s;
+            transition: border 0.3s;
         }
 
         details[open] {
-            border-color: #555;
-            background: #0f0f0f;
+            border-color: #ffffff;
         }
 
         summary {
@@ -125,17 +139,25 @@
             list-style: none;
         }
 
+        summary::before {
+            content: "[+] ";
+            color: var(--text-dim);
+        }
+
+        details[open] summary::before {
+            content: "[-] ";
+        }
+
         .expand-content {
             margin-top: 20px;
             color: var(--text-dim);
-            padding-top: 15px;
+            padding-top: 20px;
             border-top: 1px solid #222;
         }
 
-        /* Character Grid */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
         }
 
@@ -145,10 +167,15 @@
 
         footer {
             text-align: center;
-            padding: 100px 20px;
-            opacity: 0.3;
+            padding: 120px 20px;
+            opacity: 0.2;
             font-size: 0.7rem;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+        }
+
+        @media (max-width: 600px) {
+            nav { width: 95%; gap: 15px; padding: 0.8rem 1rem; }
+            nav a { font-size: 0.6rem; }
         }
     </style>
 </head>
@@ -171,20 +198,20 @@
 
         <section id="summary">
             <h2>Summary</h2>
-            <details name="main-info">
-                <summary>Book Overview</summary>
+            <details name="group1">
+                <summary>View Summary</summary>
                 <div class="expand-content">
-                    <p>[ Type your summary of the D-Day landings and the journey of the six characters here. ]</p>
+                    <p>[ ]</p>
                 </div>
             </details>
         </section>
 
         <section id="theme">
             <h2>Theme</h2>
-            <details name="main-info">
-                <summary>The Meaning of "Allies"</summary>
+            <details name="group1">
+                <summary>View Theme</summary>
                 <div class="expand-content">
-                    <p>The main theme is <b>Cooperation</b>. Alan Gratz shows that D-Day could only succeed if people of different races, genders, and countries acted as "Allies." Another theme is <b>Identity</b>, specifically seen through Dee, who struggles with being a German-born soldier fighting for America.</p>
+                    <p>[ ]</p>
                 </div>
             </details>
         </section>
@@ -195,42 +222,42 @@
                 <details class="char-card" name="chars">
                     <summary>DEE</summary>
                     <div class="expand-content">
-                        <p>A 16-year-old US soldier from Nebraska. His secret is that he was born in Germany and his real name is Dietrich.</p>
+                        <p>[ ]</p>
                     </div>
                 </details>
 
                 <details class="char-card" name="chars">
                     <summary>SAM</summary>
                     <div class="expand-content">
-                        <p>An African American medic on Omaha Beach. He deals with Jim Crow-era racism while risking his life to save others.</p>
+                        <p>[ ]</p>
                     </div>
                 </details>
 
                 <details class="char-card" name="chars">
                     <summary>JAMES</summary>
                     <div class="expand-content">
-                        <p>A British paratrooper who jumps into France before H-Hour to destroy Nazi defenses.</p>
+                        <p>[ ]</p>
                     </div>
                 </details>
 
                 <details class="char-card" name="chars">
                     <summary>MONIQUE</summary>
                     <div class="expand-content">
-                        <p>A French girl living near the coast who ends up helping the Resistance and Allied wounded.</p>
+                        <p>[ ]</p>
                     </div>
                 </details>
 
                 <details class="char-card" name="chars">
                     <summary>DOROTHY</summary>
                     <div class="expand-content">
-                        <p>A female journalist (inspired by true history) who sneaks onto the beach to report the truth.</p>
+                        <p>[ ]</p>
                     </div>
                 </details>
 
                 <details class="char-card" name="chars">
                     <summary>BILL</summary>
                     <div class="expand-content">
-                        <p>A tank driver who has to survive the chaotic landing on the shore.</p>
+                        <p>[ ]</p>
                     </div>
                 </details>
             </div>
@@ -238,13 +265,12 @@
 
         <section id="glossary">
             <h2>Glossary</h2>
-            <div class="expand-content" style="border: none;">
-                <p><b>Higgins Boat:</b> The flat-bottomed boat that landed troops on the beach.</p>
-                <br>
-                <p><b>D-Day:</b> June 6, 1944—the day the Allied forces invaded Nazi-occupied France.</p>
-                <br>
-                <p><b>French Resistance:</b> French citizens who fought the Nazis using secret missions.</p>
-            </div>
+            <details name="group1">
+                <summary>View Glossary</summary>
+                <div class="expand-content">
+                    <p>[ ]</p>
+                </div>
+            </details>
         </section>
 
     </div>
