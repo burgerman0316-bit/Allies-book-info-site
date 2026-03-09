@@ -100,10 +100,19 @@
             border-radius: 8px;
             margin-bottom: 15px;
             overflow: hidden;
-            transition: border-color 0.3s;
+            transition: border-color 0.4s ease, transform 0.2s ease;
         }
 
-        details[open] { border-color: #ffffff; }
+        /* Hover lift effect */
+        details:hover {
+            border-color: #444;
+        }
+
+        /* Active Glow */
+        details[open] { 
+            border-color: #ffffff;
+            transform: scale(1.01);
+        }
 
         summary {
             padding: 20px;
@@ -113,18 +122,29 @@
             list-style: none;
             cursor: pointer;
             outline: none;
+            transition: color 0.3s ease;
+        }
+
+        details[open] summary {
+            color: #ffffff;
         }
 
         /* The Animation Trick */
         .expand-content {
             padding: 0 20px 20px 20px;
             color: var(--text-dim);
-            animation: slideDown 0.4s ease-out;
+            animation: slideDown 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { 
+                opacity: 0; 
+                transform: translateY(-15px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
         }
 
         /* TIMELINE DESIGN */
