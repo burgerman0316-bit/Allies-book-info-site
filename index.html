@@ -33,26 +33,15 @@
 
         nav {
             background-color: var(--bg);
-            padding: 1.5rem 0;
+            padding: 1.5rem;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
+            border-bottom: 5px solid var(--text-main);
             display: flex;
             justify-content: center;
             gap: 40px;
-            border-bottom: none; 
-        }
-
-        nav::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 10%;
-            right: 10%;
-            height: 5px;
-            background-color: var(--text-white);
-            border-radius: 10px;
         }
 
         nav a {
