@@ -12,18 +12,12 @@
             --text-dim: #a0a0a0;
             --border: #222222;
             --card-bg: #0a0a0a;
-            --nav-w: 85%;
-            --nav-max-w: 750px;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
         }
 
         body {
@@ -34,49 +28,47 @@
             overflow-x: hidden;
         }
 
-        /* LIQUID REFRACTION ENGINE 
-           The 'nav' handles the blur, while 'refractor' handles the pixel shift
+        /* THE LIQUID ENGINE 
+           Combines high-saturate glass with a chromatic shift 
         */
-        .glass-container {
+        .nav-container {
             position: fixed;
             top: 25px;
             left: 50%;
             transform: translateX(-50%);
-            width: var(--nav-w);
-            max-width: var(--nav-max-w);
+            width: 85%;
+            max-width: 750px;
             z-index: 1000;
         }
 
         nav {
             position: relative;
-            width: 100%;
             padding: 0.7rem 2.5rem;
             display: flex;
             justify-content: center;
             gap: 30px;
-            
-            /* Precision Refraction Stack */
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(1px) saturate(250%) contrast(130%) brightness(115%);
-            -webkit-backdrop-filter: blur(1px) saturate(250%) contrast(130%) brightness(115%);
-            
             border-radius: 100px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            
+            /* Liquid Properties: 1px blur + High Color Distortion */
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(1.5px) saturate(300%) contrast(150%) brightness(120%);
+            -webkit-backdrop-filter: blur(1.5px) saturate(300%) contrast(150%) brightness(120%);
+            
+            border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 
-                0 15px 45px rgba(0, 0, 0, 0.9),
-                inset 0 1px 3px rgba(255, 255, 255, 0.4);
-            overflow: hidden;
+                0 20px 50px rgba(0, 0, 0, 0.9),
+                inset 0 1px 4px rgba(255, 255, 255, 0.5), /* Surface tension highlight */
+                inset 0 -1px 2px rgba(255, 255, 255, 0.2);
         }
 
-        /* The Magnification/Refraction Shift */
-        .refraction-warp {
+        /* Chromatic Aberration Simulation on the edge */
+        nav::after {
+            content: "";
             position: absolute;
-            inset: 0;
+            inset: -1px;
             border-radius: 100px;
+            background: linear-gradient(90deg, rgba(255,0,0,0.05), rgba(0,255,0,0.05), rgba(0,0,255,0.05));
             pointer-events: none;
-            /* This scales content passing through by 5% to simulate a lens */
-            transform: scale(1.05); 
-            z-index: -1;
         }
 
         nav a {
@@ -87,6 +79,7 @@
             font-size: 0.75rem;
             letter-spacing: 2px;
             opacity: 0.8;
+            transition: 0.2s;
         }
 
         header {
@@ -98,6 +91,8 @@
             font-size: clamp(3.5rem, 12vw, 7rem);
             letter-spacing: 12px;
             text-transform: uppercase;
+            /* Target for the refraction script */
+            transition: transform 0.1s ease-out;
         }
 
         .container {
@@ -161,9 +156,8 @@
 </head>
 <body>
 
-    <div class="glass-container">
-        <nav>
-            <div class="refraction-warp"></div>
+    <div class="nav-container">
+        <nav id="liquid-glass">
             <a href="#home">Home</a>
             <a href="#summary">Summary</a>
             <a href="#theme">Theme</a>
@@ -173,59 +167,74 @@
     </div>
 
     <header id="home">
-        <h1>ALLIES</h1>
-        <p>By Alan Gratz</p>
+        <h1 id="hero-text">ALLIES</h1>
+        <p style="letter-spacing: 6px; opacity: 0.5;">BY: ALAN GRATZ</p>
     </header>
 
     <div class="container">
-
         <section id="summary">
             <h2>Summary</h2>
-            <details name="sections">
+            <details name="main">
                 <summary>View</summary>
-                <div class="expand-content">
-                    <p>[ ]</p>
-                </div>
+                <div class="expand-content"><p>[ ]</p></div>
             </details>
         </section>
 
         <section id="theme">
             <h2>Theme</h2>
-            <details name="sections">
+            <details name="main">
                 <summary>View</summary>
-                <div class="expand-content">
-                    <p>[ ]</p>
-                </div>
+                <div class="expand-content"><p>[ ]</p></div>
             </details>
         </section>
 
         <section id="pov">
             <h2>Characters</h2>
             <div class="grid">
-                <details class="char-card" name="chars"><summary>Perspective 01</summary><div class="expand-content"><p>[ ]</p></div></details>
-                <details class="char-card" name="chars"><summary>Perspective 02</summary><div class="expand-content"><p>[ ]</p></div></details>
-                <details class="char-card" name="chars"><summary>Perspective 03</summary><div class="expand-content"><p>[ ]</p></div></details>
-                <details class="char-card" name="chars"><summary>Perspective 04</summary><div class="expand-content"><p>[ ]</p></div></details>
-                <details class="char-card" name="chars"><summary>Perspective 05</summary><div class="expand-content"><p>[ ]</p></div></details>
-                <details class="char-card" name="chars"><summary>Perspective 06</summary><div class="expand-content"><p>[ ]</p></div></details>
+                <details class="char-card" name="chars"><summary>POV 01</summary><div class="expand-content"><p>[ ]</p></div></details>
+                <details class="char-card" name="chars"><summary>POV 02</summary><div class="expand-content"><p>[ ]</p></div></details>
+                <details class="char-card" name="chars"><summary>POV 03</summary><div class="expand-content"><p>[ ]</p></div></details>
+                <details class="char-card" name="chars"><summary>POV 04</summary><div class="expand-content"><p>[ ]</p></div></details>
+                <details class="char-card" name="chars"><summary>POV 05</summary><div class="expand-content"><p>[ ]</p></div></details>
+                <details class="char-card" name="chars"><summary>POV 06</summary><div class="expand-content"><p>[ ]</p></div></details>
             </div>
         </section>
 
         <section id="glossary">
             <h2>Glossary</h2>
-            <details name="sections">
+            <details name="main">
                 <summary>View</summary>
-                <div class="expand-content">
-                    <p>[ ]</p>
-                </div>
+                <div class="expand-content"><p>[ ]</p></div>
             </details>
         </section>
-
     </div>
 
     <footer>
         <p>LIT CIRCLES PROJECT &bull; 2026</p>
     </footer>
+
+    <script>
+        // LIQUID REFRACTION SCRIPT
+        // This detects when content is behind the glass and "warps" it
+        const heroText = document.getElementById('hero-text');
+        
+        window.addEventListener('scroll', () => {
+            const scroll = window.scrollY;
+            
+            // When the title slides under the nav (approx 0-150px scroll)
+            if (scroll < 250) {
+                const warpAmount = 1 + (scroll / 2000); 
+                const colorShift = (scroll / 10);
+                
+                // Creates a magnifying refraction and a slight chromatic "oil slick" feel
+                heroText.style.transform = `scale(${warpAmount})`;
+                heroText.style.filter = `contrast(${100 + colorShift}%)`;
+            } else {
+                heroText.style.transform = `scale(1)`;
+                heroText.style.filter = `contrast(100%)`;
+            }
+        });
+    </script>
 
 </body>
 </html>
