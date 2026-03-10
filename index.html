@@ -182,23 +182,16 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
         }
-
-        footer {
-            text-align: center;
-            padding: 80px;
-            opacity: 0.4;
-            font-size: 0.7rem;
-        }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="#home">Intel</a>
-        <a href="#summary">Debrief</a>
+        <a href="#home">Home</a>
+        <a href="#summary">Summary</a>
         <a href="#timeline">Timeline</a>
-        <a href="#pov">Personnel</a>
-        <a href="#theme">Objective</a>
+        <a href="#pov">Perspectives</a>
+        <a href="#theme">Theme</a>
     </nav>
 
     <header id="home">
@@ -224,7 +217,7 @@
                 
                 <div class="mission-file" onclick="this.classList.toggle('expanded')">
                     <span class="time-mark">Event 01</span>
-                    <span class="file-label">Event</span>
+                    <span class="file-label">Event time</span>
                     <div class="file-content">[ ]</div>
                 </div>
             </div>
@@ -243,7 +236,7 @@
         <section id="theme">
             <h2>Mission Objectives</h2>
             <div class="mission-file" onclick="this.classList.toggle('expanded')">
-                <span class="file-label">Theme Analysis</span>
+                <span class="file-label">Theme</span>
                 <div class="file-content">[ ]</div>
             </div>
         </section>
