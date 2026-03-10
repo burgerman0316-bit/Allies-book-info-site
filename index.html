@@ -12,7 +12,7 @@
             --stencils-sand: #c2b280;
             --ink-black: #1a1a1a;
             --paper: #dcd0b3;
-            --army-red: #7a2a2a; /* Updated name to be more direct */
+            --army-red: #7a2a2a;
         }
 
         * {
@@ -35,7 +35,6 @@
             padding-bottom: 100px;
         }
 
-        /* TACTICAL NAV */
         nav {
             position: fixed;
             top: 0;
@@ -77,7 +76,7 @@
 
         .operation-code {
             font-size: 1rem;
-            color: var(--stencils-sand); /* Removed secret-red for simplicity */
+            color: var(--stencils-sand);
             font-weight: bold;
             letter-spacing: 5px;
             margin-bottom: 10px;
@@ -118,13 +117,12 @@
             margin-bottom: 30px;
             text-transform: uppercase;
             color: var(--paper);
-            border-left: 10px solid var(--army-red); /* Using army-red here */
+            border-left: 10px solid var(--army-red);
             padding-left: 15px;
             background: rgba(0,0,0,0.3);
             width: 100%;
         }
 
-        /* DOSSIER CARDS (REMOVED SECRECY) */
         .mission-file {
             background: var(--paper);
             color: var(--ink-black);
@@ -140,8 +138,6 @@
         .mission-file:hover {
             transform: translate(-2px, -2px);
         }
-
-        /* Removed Confidential and Declassify effects */
 
         .file-label {
             font-weight: 900;
@@ -161,20 +157,23 @@
             font-size: 1rem;
         }
 
+        /* The fade effect + "Click to read more" label */
         .file-content::after {
-            content: 'CLICK TO READ...'; /* Changed to be direct */
+            content: 'CLICK TO READ MORE...';
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 1.5em;
-            background: linear-gradient(transparent, var(--paper));
+            height: 2.5em; /* Slightly taller to accommodate text clearly */
+            background: linear-gradient(transparent, var(--paper) 70%);
             transition: opacity 0.3s;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: bold;
-            color: var(--army-red); /* Using army-red here */
+            color: var(--army-red);
             display: flex;
             align-items: flex-end;
+            justify-content: center; /* Centered for better visibility */
+            padding-bottom: 5px;
         }
 
         .mission-file.expanded .file-content {
@@ -186,7 +185,6 @@
             pointer-events: none;
         }
 
-        /* TIMELINE ELEMENTS */
         .timeline-wrapper {
             border-left: 4px double var(--stencils-sand);
             padding-left: 40px;
@@ -196,7 +194,7 @@
         .time-mark {
             position: absolute;
             left: -55px;
-            background: var(--army-red); /* Using army-red here */
+            background: var(--army-red);
             color: white;
             padding: 2px 5px;
             font-size: 0.7rem;
@@ -208,8 +206,6 @@
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 25px;
         }
-
-        /* Removed Top Secret and Verified Stamps */
 
         footer {
             text-align: center;
@@ -238,7 +234,7 @@
     </nav>
 
     <header id="home">
-        <div class="operation-code">D-Day</div> /* Updated operation code for directness */
+        <div class="operation-code">D-Day</div>
         <h1>ALLIES</h1>
         <div class="author-tag">AUTHOR: ALAN GRATZ</div>
     </header>
@@ -248,9 +244,9 @@
         <section id="summary">
             <h2>Book Summary</h2>
             <div class="mission-file" onclick="this.classList.toggle('expanded')">
-                <span class="file-label">Subject: D-Day Novel Overview</span>
+                <span class="file-label">Overview</span>
                 <div class="file-content">
-                    <em>Allies</em> follows the non-linear yet interconnected stories of several young people during the invasion of Normandy on June 6, 1944. The narrative weaves together the terrifying experiences of Dee (a US soldier), Samira (a French Resistance fighter), James (a Canadian paratrooper), Bill (a British tank rider), and Monique (a French girl caught in the crossfire). As the largest seaborne invasion in history unfolds, their individual stories merge into a singular goal: the liberation of Europe.
+                    [ ]
                 </div>
             </div>
         </section>
@@ -260,26 +256,18 @@
             <div class="timeline-wrapper">
                 
                 <div class="mission-file" onclick="this.classList.toggle('expanded')" style="position: relative;">
-                    <span class="time-mark">04:00</span>
-                    <span class="file-label">Paratrooper Drop</span>
+                    <span class="time-mark">00:00</span>
+                    <span class="file-label">Event 01</span>
                     <div class="file-content">
-                        Allied paratroopers drop behind enemy lines in the dark hours of the early morning. James and his Canadian unit face chaos as they miss their drop zones, navigating the flooded marshes and hedgerows of France to secure vital bridges before the main beach landings begin.
+                        [ ]
                     </div>
                 </div>
 
                 <div class="mission-file" onclick="this.classList.toggle('expanded')" style="position: relative;">
-                    <span class="time-mark">06:30</span>
-                    <span class="file-label">Beach Landings</span>
+                    <span class="time-mark">00:00</span>
+                    <span class="file-label">Event 02</span>
                     <div class="file-content">
-                        The "H-Hour" begins. Dee Carpenter faces the terrifying reality of Omaha Beach. As the ramps drop, he and thousands of others must storm the Atlantic Wall under heavy machine-gun fire. This represents the brutal frontal assault required to gain a foothold in "Fortress Europe."
-                    </div>
-                </div>
-
-                <div class="mission-file" onclick="this.classList.toggle('expanded')" style="position: relative;">
-                    <span class="time-mark">09:00</span>
-                    <span class="file-label">Resistance & Sabotage</span>
-                    <div class="file-content">
-                        Behind the lines, Samira and the French Resistance execute sabotage missions to disrupt Nazi communications and reinforcements. Their work is crucial to preventing the German army from effectively countering the Allied landings at the coast.
+                        [ ]
                     </div>
                 </div>
             </div>
@@ -289,26 +277,16 @@
             <h2>Characters</h2>
             <div class="grid">
                 <div class="mission-file" onclick="this.classList.toggle('expanded')">
-                    <span class="file-label">Dee Carpenter</span>
+                    <span class="file-label">Name</span>
                     <div class="file-content">
-                        <strong>Role:</strong> US Soldier.<br>
-                        <strong>Background:</strong> A German-born immigrant fighting for the U.S. Dee carries the heavy weight of fighting against his former homeland while trying to prove his loyalty to his new one. His journey is one of identity and raw survival on the sands of Omaha Beach.
+                        [ ]
                     </div>
                 </div>
 
                 <div class="mission-file" onclick="this.classList.toggle('expanded')">
-                    <span class="file-label">Samira Zidane</span>
+                    <span class="file-label">Name</span>
                     <div class="file-content">
-                        <strong>Role:</strong> French-Algerian Resistance.<br>
-                        <strong>Background:</strong> Searching for her mother who was captured by the Nazis, Samira uses her wit and bravery to aid the Allied cause. Her story highlights the contributions of colonial soldiers and women in the fight for freedom.
-                    </div>
-                </div>
-
-                <div class="mission-file" onclick="this.classList.toggle('expanded')">
-                    <span class="file-label">James McKay</span>
-                    <div class="file-content">
-                        <strong>Role:</strong> Canadian Paratrooper.<br>
-                        <strong>Background:</strong> Representing the airborne units, James's experience is defined by the disorientation of night combat and the intense pressure of being "the first in."
+                        [ ]
                     </div>
                 </div>
             </div>
@@ -317,15 +295,9 @@
         <section id="theme">
             <h2>Themes</h2>
             <div class="mission-file" onclick="this.classList.toggle('expanded')">
-                <span class="file-label">Theme: Unity & Cooperation</span>
+                <span class="file-label">Theme 01</span>
                 <div class="file-content">
-                    The central theme of the novel is the strength found in diversity and alliance. Gratz emphasizes that D-Day was not won by a single nation or hero, but by the combined efforts of people from different backgrounds—regardless of race, nationality, or gender—working toward a common objective.
-                </div>
-            </div>
-            <div class="mission-file" onclick="this.classList.toggle('expanded')">
-                <span class="file-label">Theme: Fear vs. Courage</span>
-                <div class="file-content">
-                    The book explores the idea that courage is not the absence of fear, but acting in spite of it. Each character faces moments of paralyzing terror, yet they find the internal strength to push forward for the sake of their allies.
+                    [ ]
                 </div>
             </div>
         </section>
