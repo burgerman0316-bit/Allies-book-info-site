@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIT Circles Project | Allies By Alan Gratz</title>
+    <title>MISSION LOG | Allies By Alan Gratz</title>
     <link rel="icon" type="image/x-icon" href="favicon a.png">
     <style>
         :root {
-            --bg: #000000;
-            --text-main: #ffffff;
-            --text-dim: #a0a0a0;
-            --border: #222222;
-            --card-bg: #0a0a0a;
-            --glass: rgba(255, 255, 255, 0.08);
+            --army-green: #3d4034;
+            --drab: #2b2d24;
+            --stencils-sand: #c2b280;
+            --folder-tan: #b9a97a;
+            --ink-black: #1a1a1a;
+            --border-rust: #4a4a4a;
+            --paper: #dcd0b3;
         }
 
         * {
@@ -25,147 +26,180 @@
 
         body {
             font-family: 'Courier New', Courier, monospace;
-            background-color: var(--bg);
-            color: var(--text-main);
-            line-height: 1.8;
+            background-color: var(--army-green);
+            background-image: radial-gradient(var(--drab) 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: var(--stencils-sand);
+            line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* GLASS NAV */
+        /* TACTICAL NAV */
         nav {
             position: fixed;
-            top: 25px;
+            top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            width: 85%;
-            max-width: 750px;
-            padding: 0.8rem 2.5rem;
+            width: 90%;
+            max-width: 850px;
+            padding: 1rem;
             z-index: 1000;
             display: flex;
             justify-content: center;
-            gap: 30px;
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 100px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            gap: 20px;
+            background: var(--ink-black);
+            border: 2px solid var(--border-rust);
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
         }
 
         nav a {
-            color: var(--text-main);
+            color: var(--stencils-sand);
             text-decoration: none;
             font-weight: bold;
             text-transform: uppercase;
             font-size: 0.75rem;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             opacity: 0.7;
             transition: 0.3s;
         }
 
-        nav a:hover { opacity: 1; }
+        nav a:hover { 
+            opacity: 1; 
+            color: #fff;
+            text-shadow: 0 0 5px #fff;
+        }
 
         header {
-            padding: 240px 20px 100px 20px;
+            padding: 180px 20px 60px 20px;
             text-align: center;
         }
 
-        header h1 {
-            font-size: clamp(3.5rem, 12vw, 7rem);
-            letter-spacing: 12px;
+        .classified-stamp {
+            display: inline-block;
+            border: 4px solid #7a2a2a;
+            color: #7a2a2a;
+            padding: 5px 15px;
+            font-size: 1.2rem;
+            font-weight: 900;
             text-transform: uppercase;
+            transform: rotate(-5deg);
+            margin-bottom: 20px;
+            letter-spacing: 5px;
+            opacity: 0.8;
+        }
+
+        header h1 {
+            font-size: clamp(3rem, 10vw, 6rem);
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            color: #fff;
+            -webkit-text-stroke: 1px var(--stencils-sand);
         }
 
         .container {
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
         }
 
         section {
-            padding: 80px 0;
-            border-bottom: 1px solid var(--border);
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border-rust);
         }
 
         h2 {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             margin-bottom: 30px;
             text-transform: uppercase;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
+            color: #fff;
+            background: var(--ink-black);
+            display: inline-block;
+            padding: 5px 15px;
         }
 
-        /* SLIDING DROPDOWN SYSTEM */
+        /* MISSION FOLDER DROPDOWNS */
         details {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
+            background: var(--paper);
+            color: var(--ink-black);
+            border: 1px solid #000;
             margin-bottom: 15px;
-            overflow: hidden;
-            transition: border-color 0.3s ease;
+            position: relative;
+            box-shadow: 5px 5px 0px var(--ink-black);
         }
 
-        details[open] { border-color: #ffffff; }
+        details[open] {
+            transform: translate(-2px, -2px);
+            box-shadow: 7px 7px 0px var(--ink-black);
+        }
 
         summary {
-            padding: 20px;
+            padding: 15px 20px;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             list-style: none;
             cursor: pointer;
-            outline: none;
+            border-bottom: 1px dashed var(--ink-black);
+        }
+
+        summary::before {
+            content: "FILE: ";
+            opacity: 0.5;
         }
 
         .content-inner {
-            padding: 0 20px 20px 20px;
-            color: var(--text-dim);
+            padding: 20px;
+            font-size: 0.95rem;
+            border-left: 10px solid var(--army-green);
         }
 
-        /* TIMELINE DESIGN */
+        /* STRATEGIC TIMELINE */
         .timeline {
             position: relative;
-            padding-left: 40px;
+            padding-left: 50px;
         }
 
         .timeline::before {
             content: '';
             position: absolute;
-            left: 0;
+            left: 5px;
             top: 0;
-            width: 2px;
+            width: 4px;
             height: 100%;
-            background: var(--border);
+            background: var(--ink-black);
         }
 
         .event {
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .event::before {
             content: '';
             position: absolute;
-            left: -46px;
-            top: 25px;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: var(--bg);
-            border: 2px solid #ffffff;
+            left: -53px;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+            background: var(--army-green);
+            border: 4px solid var(--ink-black);
             z-index: 2;
         }
 
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            gap: 15px;
         }
 
         footer {
             text-align: center;
-            padding: 120px 20px;
-            opacity: 0.2;
+            padding: 100px 20px;
+            opacity: 0.5;
             font-size: 0.7rem;
+            letter-spacing: 2px;
         }
     </style>
 </head>
@@ -181,7 +215,7 @@
 
     <header id="home">
         <h1>ALLIES</h1>
-        <p style="letter-spacing: 6px; opacity: 0.5;">BY: ALAN GRATZ</p>
+        <p style="letter-spacing: 4px; color: var(--stencils-sand);">By: Alan Gratz</p>
     </header>
 
     <div class="container">
@@ -189,13 +223,15 @@
         <section id="summary">
             <h2>Summary</h2>
             <details>
-                <summary>Summary of the Book</summary>
-                <div class="content-inner"><p>[ ]</p></div>
+                <summary>Notes</summary>
+                <div class="content-inner">
+                    <p>[ ]</p>
+                </div>
             </details>
         </section>
 
         <section id="timeline">
-            <h2>D-Day Timeline</h2>
+            <h2>Timeline</h2>
             <div class="timeline">
                 <div class="event">
                     <details><summary>Event 1</summary><div class="content-inner"><p>[ ]</p></div></details>
@@ -204,24 +240,22 @@
         </section>
 
         <section id="pov">
-            <h2>The Characters</h2>
+            <h2>Active Personnel</h2>
             <div class="grid">
-                <details><summary>Char 1</summary><div class="content-inner"><p>[ ]</p></div></details>
+                <details><summary>Dee Carpenter</summary><div class="content-inner"><p>[ Status: ]</p></div></details>
             </div>
         </section>
 
         <section id="theme">
-            <h2>Theme</h2>
+            <h2>Themes</h2>
             <details>
-                <summary>Major Themes</summary>
-                <div class="content-inner"><p>[ ]</p></div>
+                <summary>The Main Idea</summary>
+                <div class="content-inner">
+                    <p>[ ]</p>
+                </div>
             </details>
         </section>
     </div>
-
-    <footer>
-        <p>LIT CIRCLES PROJECT &bull; 2026</p>
-    </footer>
 
     <script>
         class Accordion {
@@ -279,6 +313,5 @@
           new Accordion(el);
         });
     </script>
-
 </body>
 </html>
