@@ -13,7 +13,6 @@
             --border: #222222;
             --card-bg: #0a0a0a;
             --glass: rgba(255, 255, 255, 0.08);
-            --accent: #ffffff;
         }
 
         * {
@@ -37,14 +36,13 @@
             top: 25px;
             left: 50%;
             transform: translateX(-50%);
-            width: 90%;
-            max-width: 900px;
-            padding: 0.8rem 1.5rem;
+            width: 85%;
+            max-width: 800px;
+            padding: 0.8rem 2rem;
             z-index: 1000;
             display: flex;
             justify-content: center;
-            align-items: center;
-            gap: 15px;
+            gap: 20px;
             background: var(--glass);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
@@ -57,31 +55,18 @@
             text-decoration: none;
             font-weight: bold;
             text-transform: uppercase;
-            font-size: 0.65rem;
-            letter-spacing: 1px;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
             opacity: 0.5;
             transition: 0.3s;
             cursor: pointer;
         }
 
-        nav a.active { opacity: 1; text-decoration: underline; text-underline-offset: 8px; }
-
-        /* EDIT BUTTON */
-        .edit-btn {
-            background: #fff;
-            color: #000;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.6rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-left: 10px;
+        nav a.active {
+            opacity: 1;
+            text-decoration: underline;
+            text-underline-offset: 8px;
         }
-
-        .edit-btn.saving { background: #444; color: #fff; }
 
         /* PAGE SYSTEM */
         .page {
@@ -95,36 +80,101 @@
             left: 0;
         }
 
-        .page.active { display: block; animation: fadeIn 0.4s ease; }
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        header { text-align: center; margin-bottom: 50px; }
-        header h1 { font-size: clamp(2.5rem, 8vw, 5rem); letter-spacing: 10px; text-transform: uppercase; }
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
 
-        .container { max-width: 900px; margin: 0 auto; }
-        h2 { font-size: 1.5rem; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 4px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        header h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            letter-spacing: 10px;
+            text-transform: uppercase;
+        }
 
-        /* DROPDOWNS */
-        details { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 15px; overflow: hidden; }
-        details[open] { border-color: var(--accent); }
-        summary { padding: 20px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; list-style: none; cursor: pointer; }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
 
-        /* EDITABLE CONTENT */
-        .content-inner { padding: 0 20px 20px 20px; color: var(--text-dim); min-height: 50px; outline: none; transition: 0.3s; }
-        .editing .content-inner { background: rgba(255,255,255,0.05); color: #fff; border: 1px dashed #444; border-radius: 4px; }
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        /* SLIDING DROPDOWN SYSTEM */
+        details {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        details[open] { border-color: #ffffff; }
+
+        summary {
+            padding: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            list-style: none;
+            cursor: pointer;
+        }
+
+        .content-inner {
+            padding: 0 20px 20px 20px;
+            color: var(--text-dim);
+        }
 
         /* TIMELINE */
-        .timeline { position: relative; padding-left: 40px; }
-        .timeline::before { content: ''; position: absolute; left: 0; top: 0; width: 2px; height: 100%; background: var(--border); }
-        .event { position: relative; margin-bottom: 15px; }
-        .event::before { content: ''; position: absolute; left: -46px; top: 25px; width: 14px; height: 14px; border-radius: 50%; background: var(--bg); border: 2px solid #ffffff; z-index: 2; }
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        footer { text-align: center; margin-top: 50px; opacity: 0.2; font-size: 0.6rem; padding-bottom: 20px; }
+        .timeline::before {
+            content: '';
+            position: absolute; left: 0; top: 0;
+            width: 2px; height: 100%;
+            background: var(--border);
+        }
+
+        .event { position: relative; margin-bottom: 15px; }
+        .event::before {
+            content: '';
+            position: absolute; left: -46px; top: 25px;
+            width: 14px; height: 14px;
+            border-radius: 50%; background: var(--bg);
+            border: 2px solid #ffffff; z-index: 2;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            opacity: 0.2;
+            font-size: 0.6rem;
+            padding-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -135,7 +185,6 @@
         <a onclick="showPage('timeline')" class="nav-link">Timeline</a>
         <a onclick="showPage('pov')" class="nav-link">Characters</a>
         <a onclick="showPage('theme')" class="nav-link">Theme</a>
-        <button class="edit-btn" id="editToggle" onclick="toggleEdit()">Edit Info</button>
     </nav>
 
     <div id="home" class="page active">
@@ -144,7 +193,7 @@
             <p style="letter-spacing: 6px; opacity: 0.5;">BY: ALAN GRATZ</p>
         </header>
         <div class="container" style="text-align: center;">
-            <p style="color: var(--text-dim);">Your personal digital log for the invasion. Click "Edit Info" to start typing your notes.</p>
+            <p style="color: var(--text-dim);">Your Lit Circles digital log. Navigate to a section and add your notes to the code as you read.</p>
         </div>
     </div>
 
@@ -153,7 +202,7 @@
             <h2>Summary</h2>
             <details>
                 <summary>Book Overview</summary>
-                <div class="content-inner" id="data-summary" contenteditable="false">Click Edit to add your summary...</div>
+                <div class="content-inner"><p>[ ]</p></div>
             </details>
         </div>
     </div>
@@ -162,11 +211,21 @@
         <div class="container">
             <h2>D-Day Timeline</h2>
             <div class="timeline">
-                <div class="event"><details><summary>01:00 AM</summary><div class="content-inner" id="data-t1" contenteditable="false">[ ]</div></details></div>
-                <div class="event"><details><summary>06:30 AM</summary><div class="content-inner" id="data-t2" contenteditable="false">[ ]</div></details></div>
-                <div class="event"><details><summary>10:00 AM</summary><div class="content-inner" id="data-t3" contenteditable="false">[ ]</div></details></div>
-                <div class="event"><details><summary>02:00 PM</summary><div class="content-inner" id="data-t4" contenteditable="false">[ ]</div></details></div>
-                <div class="event"><details><summary>Midnight</summary><div class="content-inner" id="data-t5" contenteditable="false">[ ]</div></details></div>
+                <div class="event">
+                    <details><summary>01:00 AM</summary><div class="content-inner"><p>[ ]</p></div></details>
+                </div>
+                <div class="event">
+                    <details><summary>06:30 AM</summary><div class="content-inner"><p>[ ]</p></div></details>
+                </div>
+                <div class="event">
+                    <details><summary>10:00 AM</summary><div class="content-inner"><p>[ ]</p></div></details>
+                </div>
+                <div class="event">
+                    <details><summary>02:00 PM</summary><div class="content-inner"><p>[ ]</p></div></details>
+                </div>
+                <div class="event">
+                    <details><summary>Midnight</summary><div class="content-inner"><p>[ ]</p></div></details>
+                </div>
             </div>
         </div>
     </div>
@@ -175,12 +234,12 @@
         <div class="container">
             <h2>The Characters</h2>
             <div class="grid">
-                <details><summary>Dee Carpenter</summary><div class="content-inner" id="data-c1" contenteditable="false">[ ]</div></details>
-                <details><summary>Samira</summary><div class="content-inner" id="data-c2" contenteditable="false">[ ]</div></details>
-                <details><summary>James</summary><div class="content-inner" id="data-c3" contenteditable="false">[ ]</div></details>
-                <details><summary>Henry Allen</summary><div class="content-inner" id="data-c4" contenteditable="false">[ ]</div></details>
-                <details><summary>Bill Knight</summary><div class="content-inner" id="data-c5" contenteditable="false">[ ]</div></details>
-                <details><summary>Monique</summary><div class="content-inner" id="data-c6" contenteditable="false">[ ]</div></details>
+                <details><summary>Dee Carpenter</summary><div class="content-inner"><p>[ ]</p></div></details>
+                <details><summary>Samira</summary><div class="content-inner"><p>[ ]</p></div></details>
+                <details><summary>James</summary><div class="content-inner"><p>[ ]</p></div></details>
+                <details><summary>Henry Allen</summary><div class="content-inner"><p>[ ]</p></div></details>
+                <details><summary>Bill Knight</summary><div class="content-inner"><p>[ ]</p></div></details>
+                <details><summary>Monique</summary><div class="content-inner"><p>[ ]</p></div></details>
             </div>
         </div>
     </div>
@@ -190,55 +249,16 @@
             <h2>Themes</h2>
             <details>
                 <summary>Major Themes</summary>
-                <div class="content-inner" id="data-theme" contenteditable="false">[ ]</div>
+                <div class="content-inner"><p>[ ]</p></div>
             </details>
         </div>
     </div>
 
     <script>
-        let isEditing = false;
-
-        // LOAD DATA
-        window.onload = () => {
-            const savedData = JSON.parse(localStorage.getItem('alliesLogData') || '{}');
-            Object.keys(savedData).forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.innerText = savedData[id];
-            });
-        };
-
-        // TOGGLE EDIT MODE
-        function toggleEdit() {
-            isEditing = !isEditing;
-            const btn = document.getElementById('editToggle');
-            const editables = document.querySelectorAll('.content-inner');
-            
-            if (isEditing) {
-                document.body.classList.add('editing');
-                btn.innerText = "Save Info";
-                btn.style.background = "#00ff00"; // Green for saving
-                editables.forEach(el => el.contentEditable = "true");
-            } else {
-                document.body.classList.remove('editing');
-                btn.innerText = "Edit Info";
-                btn.style.background = "#fff";
-                editables.forEach(el => el.contentEditable = "false");
-                saveData();
-            }
-        }
-
-        // SAVE DATA
-        function saveData() {
-            const data = {};
-            document.querySelectorAll('.content-inner').forEach(el => {
-                data[el.id] = el.innerText;
-            });
-            localStorage.setItem('alliesLogData', JSON.stringify(data));
-        }
-
-        // PAGE SWITCHER
         function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
             document.getElementById(pageId).classList.add('active');
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
@@ -248,7 +268,6 @@
             });
         }
 
-        // ACCORDION ENGINE
         class Accordion {
           constructor(el) {
             this.el = el;
@@ -259,12 +278,14 @@
             this.isExpanding = false;
             this.summary.addEventListener('click', (e) => this.onClick(e));
           }
+
           onClick(e) {
             e.preventDefault();
             this.el.style.overflow = 'hidden';
             if (this.isClosing || !this.el.open) { this.open(); } 
             else if (this.isExpanding || this.el.open) { this.shrink(); }
           }
+
           shrink() {
             this.isClosing = true;
             const startHeight = `${this.el.offsetHeight}px`;
@@ -273,11 +294,13 @@
             this.animation = this.el.animate({ height: [startHeight, endHeight] }, { duration: 400, easing: 'cubic-bezier(0.4, 0, 0.2, 1)' });
             this.animation.onfinish = () => this.onAnimationFinish(false);
           }
+
           open() {
             this.el.style.height = `${this.el.offsetHeight}px`;
             this.el.open = true;
             window.requestAnimationFrame(() => this.expand());
           }
+
           expand() {
             this.isExpanding = true;
             const startHeight = `${this.el.offsetHeight}px`;
@@ -286,6 +309,7 @@
             this.animation = this.el.animate({ height: [startHeight, endHeight] }, { duration: 400, easing: 'cubic-bezier(0.4, 0, 0.2, 1)' });
             this.animation.onfinish = () => this.onAnimationFinish(true);
           }
+
           onAnimationFinish(open) {
             this.el.open = open;
             this.animation = null;
@@ -294,7 +318,10 @@
             this.el.style.height = this.el.style.overflow = '';
           }
         }
-        document.querySelectorAll('details').forEach(el => new Accordion(el));
+
+        document.querySelectorAll('details').forEach((el) => {
+          new Accordion(el);
+        });
     </script>
 </body>
 </html>
