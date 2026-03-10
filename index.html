@@ -10,10 +10,9 @@
             --army-green: #3d4034;
             --drab: #2b2d24;
             --stencils-sand: #c2b280;
-            --folder-tan: #b9a97a;
             --ink-black: #1a1a1a;
-            --border-rust: #4a4a4a;
             --paper: #dcd0b3;
+            --secret-red: #7a2a2a;
         }
 
         * {
@@ -31,7 +30,6 @@
             background-size: 20px 20px;
             color: var(--stencils-sand);
             line-height: 1.6;
-            overflow-x: hidden;
         }
 
         /* TACTICAL NAV */
@@ -41,16 +39,15 @@
             left: 50%;
             transform: translateX(-50%);
             width: 90%;
-            max-width: 850px;
+            max-width: 800px;
             padding: 1rem;
             z-index: 1000;
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 25px;
             background: var(--ink-black);
-            border: 2px solid var(--border-rust);
-            border-radius: 4px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--stencils-sand);
+            border-radius: 2px;
         }
 
         nav a {
@@ -58,183 +55,177 @@
             text-decoration: none;
             font-weight: bold;
             text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            opacity: 0.7;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            opacity: 0.6;
             transition: 0.3s;
         }
 
-        nav a:hover { 
-            opacity: 1; 
-            color: #fff;
-            text-shadow: 0 0 5px #fff;
-        }
+        nav a:hover { opacity: 1; color: #fff; }
 
         header {
-            padding: 180px 20px 60px 20px;
+            padding: 160px 20px 60px 20px;
             text-align: center;
         }
 
-        .classified-stamp {
+        .stamp {
+            border: 3px solid var(--secret-red);
+            color: var(--secret-red);
+            padding: 4px 12px;
             display: inline-block;
-            border: 4px solid #7a2a2a;
-            color: #7a2a2a;
-            padding: 5px 15px;
-            font-size: 1.2rem;
-            font-weight: 900;
             text-transform: uppercase;
-            transform: rotate(-5deg);
-            margin-bottom: 20px;
-            letter-spacing: 5px;
-            opacity: 0.8;
+            font-weight: 900;
+            transform: rotate(-3deg);
+            margin-bottom: 10px;
         }
 
         header h1 {
-            font-size: clamp(3rem, 10vw, 6rem);
-            letter-spacing: 8px;
-            text-transform: uppercase;
+            font-size: clamp(2.5rem, 8vw, 5rem);
             color: #fff;
-            -webkit-text-stroke: 1px var(--stencils-sand);
+            text-transform: uppercase;
+            letter-spacing: 5px;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 850px;
             margin: 0 auto;
             padding: 20px;
         }
 
         section {
             padding: 60px 0;
-            border-bottom: 1px solid var(--border-rust);
+            border-bottom: 1px solid rgba(194, 178, 128, 0.2);
         }
 
         h2 {
-            font-size: 1.6rem;
-            margin-bottom: 30px;
+            font-size: 1.4rem;
+            margin-bottom: 25px;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            color: #fff;
-            background: var(--ink-black);
+            color: var(--ink-black);
+            background: var(--stencils-sand);
             display: inline-block;
-            padding: 5px 15px;
+            padding: 2px 10px;
         }
 
-        /* MISSION FOLDER DROPDOWNS */
-        details {
+        /* THE TEXT DROPDOWN (TRUNCATED TEXT) */
+        .mission-file {
             background: var(--paper);
             color: var(--ink-black);
-            border: 1px solid #000;
-            margin-bottom: 15px;
-            position: relative;
-            box-shadow: 5px 5px 0px var(--ink-black);
-        }
-
-        details[open] {
-            transform: translate(-2px, -2px);
-            box-shadow: 7px 7px 0px var(--ink-black);
-        }
-
-        summary {
-            padding: 15px 20px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            list-style: none;
-            cursor: pointer;
-            border-bottom: 1px dashed var(--ink-black);
-        }
-
-        summary::before {
-            content: "";
-            opacity: 0.5;
-        }
-
-        .content-inner {
             padding: 20px;
-            font-size: 0.95rem;
-            border-left: 10px solid var(--army-green);
-        }
-
-        /* STRATEGIC TIMELINE */
-        .timeline {
+            margin-bottom: 20px;
+            border-radius: 2px;
+            box-shadow: 4px 4px 0px var(--ink-black);
+            cursor: pointer;
+            transition: 0.3s ease;
             position: relative;
-            padding-left: 50px;
+            overflow: hidden;
         }
 
-        .timeline::before {
+        .file-label {
+            font-weight: 900;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 10px;
+            color: var(--secret-red);
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* This handles the "show a little bit" logic */
+        .file-content {
+            max-height: 3.2em; /* Shows about 2 lines of text */
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        /* The fade effect at the bottom of truncated text */
+        .file-content::after {
             content: '';
             position: absolute;
-            left: 5px;
-            top: 0;
-            width: 4px;
-            height: 100%;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1.5em;
+            background: linear-gradient(transparent, var(--paper));
+            transition: opacity 0.3s;
+        }
+
+        /* Expanded state */
+        .mission-file.expanded .file-content {
+            max-height: 1000px; /* Large enough to fit any text */
+        }
+
+        .mission-file.expanded .file-content::after {
+            opacity: 0;
+        }
+
+        /* TIMELINE SPECIFIC */
+        .timeline-wrapper {
+            border-left: 3px dashed var(--stencils-sand);
+            padding-left: 30px;
+            margin-left: 10px;
+        }
+
+        .time-mark {
+            font-weight: bold;
             background: var(--ink-black);
-        }
-
-        .event {
-            position: relative;
-            margin-bottom: 25px;
-        }
-
-        .event::before {
-            content: '';
-            position: absolute;
-            left: -53px;
-            top: 20px;
-            width: 20px;
-            height: 20px;
-            background: var(--army-green);
-            border: 4px solid var(--ink-black);
-            z-index: 2;
+            color: var(--stencils-sand);
+            padding: 2px 8px;
+            font-size: 0.75rem;
+            margin-bottom: 5px;
+            display: inline-block;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
         }
 
         footer {
             text-align: center;
-            padding: 100px 20px;
-            opacity: 0.5;
+            padding: 80px;
+            opacity: 0.4;
             font-size: 0.7rem;
-            letter-spacing: 2px;
         }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="#home">Home</a>
-        <a href="#summary">Summary</a>
+        <a href="#home">Intel</a>
+        <a href="#summary">Debrief</a>
         <a href="#timeline">Timeline</a>
-        <a href="#pov">Characters</a>
-        <a href="#theme">Theme</a>
+        <a href="#pov">Personnel</a>
+        <a href="#theme">Objective</a>
     </nav>
 
     <header id="home">
         <h1>ALLIES</h1>
-        <p style="letter-spacing: 4px; color: var(--stencils-sand);">By: Alan Gratz</p>
+        <p style="color: var(--stencils-sand); letter-spacing: 3px;">By: Alan Gratz</p>
     </header>
 
     <div class="container">
         
         <section id="summary">
             <h2>Summary</h2>
-            <details>
-                <summary>Notes</summary>
-                <div class="content-inner">
-                    <p>[ ]</p>
+            <div class="mission-file" onclick="this.classList.toggle('expanded')">
+                <span class="file-label">Summary: </span>
+                <div class="file-content">
+                    [ ]
                 </div>
-            </details>
+            </div>
         </section>
 
         <section id="timeline">
-            <h2>Timeline</h2>
-            <div class="timeline">
-                <div class="event">
-                    <details><summary>Event 1</summary><div class="content-inner"><p>[ ]</p></div></details>
+            <h2>Chronological Timeline</h2>
+            <div class="timeline-wrapper">
+                
+                <div class="mission-file" onclick="this.classList.toggle('expanded')">
+                    <span class="time-mark">Event 01</span>
+                    <span class="file-label">Event</span>
+                    <div class="file-content">[ ]</div>
                 </div>
             </div>
         </section>
@@ -242,76 +233,21 @@
         <section id="pov">
             <h2>Perspectives</h2>
             <div class="grid">
-                <details><summary>Perspective 01</summary><div class="content-inner"><p>[ Status: ]</p></div></details>
+                <div class="mission-file" onclick="this.classList.toggle('expanded')">
+                    <span class="file-label">Perspective 01</span>
+                    <div class="file-content">[ ]</div>
+                </div>
             </div>
         </section>
 
         <section id="theme">
-            <h2>Themes</h2>
-            <details>
-                <summary>The Main Idea</summary>
-                <div class="content-inner">
-                    <p>[ ]</p>
-                </div>
-            </details>
+            <h2>Mission Objectives</h2>
+            <div class="mission-file" onclick="this.classList.toggle('expanded')">
+                <span class="file-label">Theme Analysis</span>
+                <div class="file-content">[ ]</div>
+            </div>
         </section>
+
     </div>
-
-    <script>
-        class Accordion {
-          constructor(el) {
-            this.el = el;
-            this.summary = el.querySelector('summary');
-            this.content = el.querySelector('.content-inner');
-            this.animation = null;
-            this.isClosing = false;
-            this.isExpanding = false;
-            this.summary.addEventListener('click', (e) => this.onClick(e));
-          }
-
-          onClick(e) {
-            e.preventDefault();
-            this.el.style.overflow = 'hidden';
-            if (this.isClosing || !this.el.open) { this.open(); } 
-            else if (this.isExpanding || this.el.open) { this.shrink(); }
-          }
-
-          shrink() {
-            this.isClosing = true;
-            const startHeight = `${this.el.offsetHeight}px`;
-            const endHeight = `${this.summary.offsetHeight}px`;
-            if (this.animation) this.animation.cancel();
-            this.animation = this.el.animate({ height: [startHeight, endHeight] }, { duration: 400, easing: 'cubic-bezier(0.4, 0, 0.2, 1)' });
-            this.animation.onfinish = () => this.onAnimationFinish(false);
-          }
-
-          open() {
-            this.el.style.height = `${this.el.offsetHeight}px`;
-            this.el.open = true;
-            window.requestAnimationFrame(() => this.expand());
-          }
-
-          expand() {
-            this.isExpanding = true;
-            const startHeight = `${this.el.offsetHeight}px`;
-            const endHeight = `${this.summary.offsetHeight + this.content.offsetHeight}px`;
-            if (this.animation) this.animation.cancel();
-            this.animation = this.el.animate({ height: [startHeight, endHeight] }, { duration: 400, easing: 'cubic-bezier(0.4, 0, 0.2, 1)' });
-            this.animation.onfinish = () => this.onAnimationFinish(true);
-          }
-
-          onAnimationFinish(open) {
-            this.el.open = open;
-            this.animation = null;
-            this.isClosing = false;
-            this.isExpanding = false;
-            this.el.style.height = this.el.style.overflow = '';
-          }
-        }
-
-        document.querySelectorAll('details').forEach((el) => {
-          new Accordion(el);
-        });
-    </script>
-</body>
+    </body>
 </html>
