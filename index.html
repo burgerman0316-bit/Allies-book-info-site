@@ -24,14 +24,13 @@
         html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'Courier New', monospace;
+            font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
             background-color: var(--bg);
             color: var(--text-main);
             line-height: 1.8;
             overflow-x: hidden;
         }
 
-        /* GLASS NAV */
         nav {
             position: fixed;
             top: 25px;
@@ -94,7 +93,6 @@
             letter-spacing: 4px;
         }
 
-        /* SLIDING DROPDOWN SYSTEM */
         details {
             background: var(--card-bg);
             border: 1px solid var(--border);
@@ -121,7 +119,6 @@
             color: var(--text-dim);
         }
 
-        /* TIMELINE DESIGN */
         .timeline {
             position: relative;
             padding-left: 40px;
@@ -142,7 +139,6 @@
             margin-bottom: 20px;
         }
 
-        /* Timeline Dropdown Specifics */
         .event details {
             background: transparent;
             border: 1px solid transparent;
@@ -205,12 +201,12 @@
     <div class="container">   
         <section id="summary">
             <h2>Sections of the book</h2>
-            <details>
-                <details><summary>Section 01</summary><div class="content-inner"><p>[ ]</p></div></details>
-                <details><summary>Section 02</summary><div class="content-inner"><p>[ ]</p></div></details>
-                <details><summary>Section 03</summary><div class="content-inner"><p>[ ]</p></div></details>
-                <details><summary>Section 04</summary><div class="content-inner"><p>[ ]</p></div></details>
-            </details>
+            <section>
+                <sections><summary>Section 01</summary><div class="content-inner"><p>[ ]</p></div></sections>
+                <sections><summary>Section 02</summary><div class="content-inner"><p>[ ]</p></div></sections>
+                <sections><summary>Section 03</summary><div class="content-inner"><p>[ ]</p></div></sections>
+                <sections><summary>Section 04</summary><div class="content-inner"><p>[ ]</p></div></sections>
+            </sections>
         </section>
 
         <section id="timeline">
