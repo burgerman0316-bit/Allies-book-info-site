@@ -21,13 +21,14 @@
             box-sizing: border-box;
         }
 
+        html { scroll-behavior: smooth; }
+
         body {
             font-family: 'Courier New', Courier, monospace;
             background-color: var(--bg);
             color: var(--text-main);
             line-height: 1.8;
-            overflow: hidden;
-            height: 100vh;
+            overflow-x: hidden;
         }
 
         /* GLASS NAV */
@@ -37,17 +38,18 @@
             left: 50%;
             transform: translateX(-50%);
             width: 85%;
-            max-width: 800px;
-            padding: 0.8rem 2rem;
+            max-width: 750px;
+            padding: 0.8rem 2.5rem;
             z-index: 1000;
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 30px;
             background: var(--glass);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border-radius: 100px;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         nav a {
@@ -55,64 +57,41 @@
             text-decoration: none;
             font-weight: bold;
             text-transform: uppercase;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             letter-spacing: 2px;
-            opacity: 0.5;
+            opacity: 0.7;
             transition: 0.3s;
-            cursor: pointer;
         }
 
-        nav a.active {
-            opacity: 1;
-            text-decoration: underline;
-            text-underline-offset: 8px;
-        }
-
-        /* PAGE SYSTEM */
-        .page {
-            display: none;
-            height: 100vh;
-            width: 100vw;
-            padding: 140px 20px 40px 20px;
-            overflow-y: auto;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
-        .page.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        nav a:hover { opacity: 1; }
 
         header {
+            padding: 240px 20px 100px 20px;
             text-align: center;
-            margin-bottom: 50px;
         }
 
         header h1 {
-            font-size: clamp(2.5rem, 8vw, 5rem);
-            letter-spacing: 10px;
+            font-size: clamp(3.5rem, 12vw, 7rem);
+            letter-spacing: 12px;
             text-transform: uppercase;
         }
 
         .container {
             max-width: 900px;
             margin: 0 auto;
+            padding: 20px;
+        }
+
+        section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border);
         }
 
         h2 {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             margin-bottom: 30px;
             text-transform: uppercase;
             letter-spacing: 4px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 10px;
         }
 
         /* SLIDING DROPDOWN SYSTEM */
@@ -122,6 +101,7 @@
             border-radius: 8px;
             margin-bottom: 15px;
             overflow: hidden;
+            transition: border-color 0.3s ease;
         }
 
         details[open] { border-color: #ffffff; }
@@ -133,6 +113,7 @@
             letter-spacing: 2px;
             list-style: none;
             cursor: pointer;
+            outline: none;
         }
 
         .content-inner {
@@ -140,7 +121,7 @@
             color: var(--text-dim);
         }
 
-        /* TIMELINE */
+        /* TIMELINE DESIGN */
         .timeline {
             position: relative;
             padding-left: 40px;
@@ -148,18 +129,30 @@
 
         .timeline::before {
             content: '';
-            position: absolute; left: 0; top: 0;
-            width: 2px; height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2px;
+            height: 100%;
             background: var(--border);
         }
 
-        .event { position: relative; margin-bottom: 15px; }
+        .event {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
         .event::before {
             content: '';
-            position: absolute; left: -46px; top: 25px;
-            width: 14px; height: 14px;
-            border-radius: 50%; background: var(--bg);
-            border: 2px solid #ffffff; z-index: 2;
+            position: absolute;
+            left: -46px;
+            top: 25px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 2px solid #ffffff;
+            z-index: 2;
         }
 
         .grid {
@@ -170,104 +163,67 @@
 
         footer {
             text-align: center;
-            margin-top: 50px;
+            padding: 120px 20px;
             opacity: 0.2;
-            font-size: 0.6rem;
-            padding-bottom: 20px;
+            font-size: 0.7rem;
         }
     </style>
 </head>
 <body>
 
-    <nav id="mainNav">
-        <a onclick="showPage('home')" class="nav-link active">Home</a>
-        <a onclick="showPage('summary')" class="nav-link">Summary</a>
-        <a onclick="showPage('timeline')" class="nav-link">Timeline</a>
-        <a onclick="showPage('pov')" class="nav-link">Characters</a>
-        <a onclick="showPage('theme')" class="nav-link">Theme</a>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#summary">Summary</a>
+        <a href="#timeline">Timeline</a>
+        <a href="#pov">Characters</a>
+        <a href="#theme">Theme</a>
     </nav>
 
-    <div id="home" class="page active">
-        <header>
-            <h1>ALLIES</h1>
-            <p style="letter-spacing: 6px; opacity: 0.5;">BY: ALAN GRATZ</p>
-        </header>
-        <div class="container" style="text-align: center;">
-            <p style="color: var(--text-dim);">Your Lit Circles digital log. Navigate to a section and add your notes to the code as you read.</p>
-        </div>
-    </div>
+    <header id="home">
+        <h1>ALLIES</h1>
+        <p style="letter-spacing: 6px; opacity: 0.5;">BY: ALAN GRATZ</p>
+    </header>
 
-    <div id="summary" class="page">
-        <div class="container">
+    <div class="container">
+        
+        <section id="summary">
             <h2>Summary</h2>
             <details>
-                <summary>Book Overview</summary>
+                <summary>Summary of the Book</summary>
                 <div class="content-inner"><p>[ ]</p></div>
             </details>
-        </div>
-    </div>
+        </section>
 
-    <div id="timeline" class="page">
-        <div class="container">
+        <section id="timeline">
             <h2>D-Day Timeline</h2>
             <div class="timeline">
                 <div class="event">
-                    <details><summary>01:00 AM</summary><div class="content-inner"><p>[ ]</p></div></details>
-                </div>
-                <div class="event">
-                    <details><summary>06:30 AM</summary><div class="content-inner"><p>[ ]</p></div></details>
-                </div>
-                <div class="event">
-                    <details><summary>10:00 AM</summary><div class="content-inner"><p>[ ]</p></div></details>
-                </div>
-                <div class="event">
-                    <details><summary>02:00 PM</summary><div class="content-inner"><p>[ ]</p></div></details>
-                </div>
-                <div class="event">
-                    <details><summary>Midnight</summary><div class="content-inner"><p>[ ]</p></div></details>
+                    <details><summary>Event 1</summary><div class="content-inner"><p>[ ]</p></div></details>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <div id="pov" class="page">
-        <div class="container">
+        <section id="pov">
             <h2>The Characters</h2>
             <div class="grid">
-                <details><summary>Dee Carpenter</summary><div class="content-inner"><p>[ ]</p></div></details>
-                <details><summary>Samira</summary><div class="content-inner"><p>[ ]</p></div></details>
-                <details><summary>James</summary><div class="content-inner"><p>[ ]</p></div></details>
-                <details><summary>Henry Allen</summary><div class="content-inner"><p>[ ]</p></div></details>
-                <details><summary>Bill Knight</summary><div class="content-inner"><p>[ ]</p></div></details>
-                <details><summary>Monique</summary><div class="content-inner"><p>[ ]</p></div></details>
+                <details><summary>Char 1</summary><div class="content-inner"><p>[ ]</p></div></details>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <div id="theme" class="page">
-        <div class="container">
-            <h2>Themes</h2>
+        <section id="theme">
+            <h2>Theme</h2>
             <details>
                 <summary>Major Themes</summary>
                 <div class="content-inner"><p>[ ]</p></div>
             </details>
-        </div>
+        </section>
     </div>
 
-    <script>
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            document.getElementById(pageId).classList.add('active');
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-                if(link.innerText.toLowerCase() === pageId.toLowerCase() || (pageId === 'pov' && link.innerText === 'Characters')) {
-                    link.classList.add('active');
-                }
-            });
-        }
+    <footer>
+        <p>LIT CIRCLES PROJECT &bull; 2026</p>
+    </footer>
 
+    <script>
         class Accordion {
           constructor(el) {
             this.el = el;
@@ -323,5 +279,6 @@
           new Accordion(el);
         });
     </script>
+
 </body>
 </html>
