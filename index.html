@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Allies By Alan Gratz Lit Circle Site</title>
+    <title>LIT Circles Project | Allies By Alan Gratz</title>
     <link rel="icon" type="image/x-icon" href="favicon a.png">
     <style>
         :root {
-            --army-green: #3d4034;
-            --drab: #2b2d24;
-            --stencils-sand: #c2b280;
-            --ink-black: #1a1a1a;
-            --paper: #dcd0b3;
-            --army-red: #7a2a2a;
+            --bg: #000000;
+            --text-main: #ffffff;
+            --text-dim: #a0a0a0;
+            --border: #222222;
+            --card-bg: #0a0a0a;
+            --glass: rgba(255, 255, 255, 0.08);
         }
 
         * {
@@ -25,283 +25,301 @@
 
         body {
             font-family: 'Courier New', Courier, monospace;
-            background-color: var(--army-green);
-            background-image: 
-                linear-gradient(rgba(43, 45, 36, 0.8) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(43, 45, 36, 0.8) 1px, transparent 1px);
-            background-size: 30px 30px;
-            color: var(--stencils-sand);
-            line-height: 1.6;
-            padding-bottom: 100px;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.8;
+            overflow-x: hidden;
         }
 
+        /* GLASS NAV */
         nav {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 1rem;
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85%;
+            max-width: 750px;
+            padding: 0.8rem 2.5rem;
             z-index: 1000;
             display: flex;
             justify-content: center;
-            gap: 20px;
-            background: var(--ink-black);
-            border-bottom: 3px solid var(--stencils-sand);
+            gap: 30px;
+            background: var(--glass);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         nav a {
-            color: var(--stencils-sand);
+            color: var(--text-main);
             text-decoration: none;
             font-weight: bold;
             text-transform: uppercase;
             font-size: 0.75rem;
             letter-spacing: 2px;
-            padding: 5px 10px;
+            opacity: 0.7;
             transition: 0.3s;
-            border: 1px solid transparent;
         }
 
-        nav a:hover { 
-            background: var(--stencils-sand); 
-            color: var(--ink-black);
-            border: 1px solid var(--ink-black);
-        }
+        nav a:hover { opacity: 1; }
 
         header {
-            padding: 140px 20px 80px 20px;
+            padding: 60px 20px 60px 20px;
             text-align: center;
-            background: linear-gradient(to bottom, var(--ink-black), var(--army-green));
-            border-bottom: 5px solid var(--drab);
-        }
-
-        .operation-code {
-            font-size: 1rem;
-            color: var(--stencils-sand);
-            font-weight: bold;
-            letter-spacing: 5px;
-            margin-bottom: 10px;
-            text-transform: uppercase;
         }
 
         header h1 {
-            font-size: clamp(3rem, 12vw, 6rem);
-            color: #fff;
+            font-size: clamp(3.5rem, 12vw, 7rem);
+            letter-spacing: 12px;
             text-transform: uppercase;
-            letter-spacing: 10px;
-            text-shadow: 3px 3px 0px var(--ink-black);
-            margin: 10px 0;
-        }
-
-        .author-tag {
-            background: var(--stencils-sand);
-            color: var(--ink-black);
-            padding: 5px 15px;
-            display: inline-block;
-            font-weight: bold;
-            transform: skew(-10deg);
         }
 
         .container {
             max-width: 900px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 20px;
         }
 
         section {
-            margin-bottom: 80px;
-            position: relative;
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border);
         }
 
         h2 {
             font-size: 1.8rem;
             margin-bottom: 30px;
             text-transform: uppercase;
-            color: var(--paper);
-            border-left: 10px solid var(--army-red);
-            padding-left: 15px;
-            background: rgba(0,0,0,0.3);
-            width: 100%;
+            letter-spacing: 4px;
         }
 
-        .mission-file {
-            background: var(--paper);
-            color: var(--ink-black);
-            padding: 25px;
-            margin-bottom: 25px;
-            border: 1px solid #c5b89a;
-            box-shadow: 8px 8px 0px var(--ink-black);
-            cursor: pointer;
-            transition: transform 0.2s ease;
-            position: relative;
-        }
-
-        .mission-file:hover {
-            transform: translate(-2px, -2px);
-        }
-
-        .file-label {
-            font-weight: 900;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            display: block;
+        /* SLIDING DROPDOWN SYSTEM */
+        details {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
             margin-bottom: 15px;
-            color: var(--drab);
-            border-bottom: 2px solid var(--drab);
-        }
-
-        .file-content {
-            max-height: 4.5em;
             overflow: hidden;
-            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: border-color 0.3s ease;
+        }
+
+        details[open] { border-color: #ffffff; }
+
+        summary {
+            padding: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            list-style: none;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .content-inner {
+            padding: 0 20px 20px 20px;
+            color: var(--text-dim);
+        }
+
+        /* TIMELINE DESIGN */
+        .timeline {
             position: relative;
-            font-size: 1rem;
-        }
-
-        /* The fade effect + "Click to read more" label */
-        .file-content::after {
-            content: 'CLICK TO READ MORE...';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2.5em; /* Slightly taller to accommodate text clearly */
-            background: linear-gradient(transparent, var(--paper) 70%);
-            transition: opacity 0.3s;
-            font-size: 0.75rem;
-            font-weight: bold;
-            color: var(--army-red);
-            display: flex;
-            align-items: flex-end;
-            justify-content: center; /* Centered for better visibility */
-            padding-bottom: 5px;
-        }
-
-        .mission-file.expanded .file-content {
-            max-height: 2000px;
-        }
-
-        .mission-file.expanded .file-content::after {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .timeline-wrapper {
-            border-left: 4px double var(--stencils-sand);
             padding-left: 40px;
-            margin-left: 15px;
         }
 
-        .time-mark {
+        .timeline::before {
+            content: '';
             position: absolute;
-            left: -55px;
-            background: var(--army-red);
-            color: white;
-            padding: 2px 5px;
-            font-size: 0.7rem;
-            font-weight: bold;
+            left: 0;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: var(--border);
+        }
+
+        .event {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        /* Timeline Dropdown Specifics */
+        .event details {
+            background: transparent;
+            border: 1px solid transparent;
+            margin-bottom: 0;
+        }
+        
+        .event details[open] {
+            background: var(--card-bg);
+            border-color: var(--border);
+        }
+
+        .event::before {
+            content: '';
+            position: absolute;
+            left: -46px;
+            top: 25px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 2px solid #ffffff;
+            z-index: 2;
+        }
+
+        .event-time {
+            color: #ffffff;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
         }
 
         footer {
             text-align: center;
-            padding: 40px;
-            font-size: 0.8rem;
-            color: var(--stencils-sand);
-            border-top: 1px solid var(--drab);
-        }
-
-        @media (max-width: 600px) {
-            .grid { grid-template-columns: 1fr; }
-            header h1 { font-size: 3rem; }
-            nav { gap: 10px; }
-            nav a { font-size: 0.6rem; letter-spacing: 1px; }
+            padding: 120px 20px;
+            opacity: 0.2;
+            font-size: 0.7rem;
         }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="#home">Intro</a>
+        <a href="#home">Home</a>
         <a href="#summary">Summary</a>
         <a href="#timeline">Timeline</a>
         <a href="#pov">Characters</a>
-        <a href="#theme">Themes</a>
+        <a href="#theme">Theme</a>
     </nav>
 
     <header id="home">
-        <div class="operation-code">D-Day</div>
         <h1>ALLIES</h1>
-        <div class="author-tag">AUTHOR: ALAN GRATZ</div>
+        <p style="letter-spacing: 6px; opacity: 0.5;">BY: ALAN GRATZ</p>
     </header>
 
     <div class="container">
         
         <section id="summary">
             <h2>Summary</h2>
-            <div class="mission-file" onclick="this.classList.toggle('expanded')">
-                <span class="file-label">Overview</span>
-                <div class="file-content">
-                    [ ]
+            <details>
+                <summary>Book Summary</summary>
+                <div class="content-inner">
+                    <p>[ ]</p>
                 </div>
-            </div>
+            </details>
         </section>
 
         <section id="timeline">
             <h2>Timeline</h2>
-            <div class="timeline-wrapper">
-                
-                <div class="mission-file" onclick="this.classList.toggle('expanded')" style="position: relative;">
-                    <span class="time-mark">00:00</span>
-                    <span class="file-label">Event 01</span>
-                    <div class="file-content">
-                        [ ]
-                    </div>
+            <div class="timeline">
+                <div class="event">
+                    <details>
+                        <summary><span class="event-time">Event 1</span></summary>
+                        <div class="content-inner"><p>[ ]</p></div>
+                    </details>
                 </div>
-
-                <div class="mission-file" onclick="this.classList.toggle('expanded')" style="position: relative;">
-                    <span class="time-mark">00:00</span>
-                    <span class="file-label">Event 02</span>
-                    <div class="file-content">
-                        [ ]
-                    </div>
-                </div>
-            </div>
         </section>
 
         <section id="pov">
             <h2>Characters</h2>
             <div class="grid">
-                <div class="mission-file" onclick="this.classList.toggle('expanded')">
-                    <span class="file-label">Name</span>
-                    <div class="file-content">
-                        [ ]
-                    </div>
-                </div>
-
-                <div class="mission-file" onclick="this.classList.toggle('expanded')">
-                    <span class="file-label">Name</span>
-                    <div class="file-content">
-                        [ ]
-                    </div>
-                </div>
+                <details><summary>Caracter 01</summary><div class="content-inner"><p>[ ]</p></div></details>
             </div>
         </section>
 
         <section id="theme">
             <h2>Theme</h2>
-            <div class="mission-file" onclick="this.classList.toggle('expanded')">
-                <span class="file-label">Theme 01</span>
-                <div class="file-content">
-                    [ ]
+            <details>
+                <summary>Main Idea</summary>
+                <div class="content-inner">
+                    <p>[ ]</p>
                 </div>
-            </div>
+            </details>
         </section>
-
     </div>
+
+    <footer>
+        <p>LIT CIRCLES PROJECT &bull; 2026</p>
+    </footer>
+
+    <script>
+        class Accordion {
+          constructor(el) {
+            this.el = el;
+            this.summary = el.querySelector('summary');
+            this.content = el.querySelector('.content-inner');
+            this.animation = null;
+            this.isClosing = false;
+            this.isExpanding = false;
+            this.summary.addEventListener('click', (e) => this.onClick(e));
+          }
+
+          onClick(e) {
+            e.preventDefault();
+            this.el.style.overflow = 'hidden';
+            if (this.isClosing || !this.el.open) {
+              this.open();
+            } else if (this.isExpanding || this.el.open) {
+              this.shrink();
+            }
+          }
+
+          shrink() {
+            this.isClosing = true;
+            const startHeight = `${this.el.offsetHeight}px`;
+            const endHeight = `${this.summary.offsetHeight}px`;
+            if (this.animation) this.animation.cancel();
+            
+            this.animation = this.el.animate({
+              height: [startHeight, endHeight]
+            }, {
+              duration: 400,
+              easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+            });
+            
+            this.animation.onfinish = () => this.onAnimationFinish(false);
+          }
+
+          open() {
+            this.el.style.height = `${this.el.offsetHeight}px`;
+            this.el.open = true;
+            window.requestAnimationFrame(() => this.expand());
+          }
+
+          expand() {
+            this.isExpanding = true;
+            const startHeight = `${this.el.offsetHeight}px`;
+            const endHeight = `${this.summary.offsetHeight + this.content.offsetHeight}px`;
+            if (this.animation) this.animation.cancel();
+            
+            this.animation = this.el.animate({
+              height: [startHeight, endHeight]
+            }, {
+              duration: 400,
+              easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+            });
+            
+            this.animation.onfinish = () => this.onAnimationFinish(true);
+          }
+
+          onAnimationFinish(open) {
+            this.el.open = open;
+            this.animation = null;
+            this.isClosing = false;
+            this.isExpanding = false;
+            this.el.style.height = this.el.style.overflow = '';
+          }
+        }
+
+        document.querySelectorAll('details').forEach((el) => {
+          new Accordion(el);
+        });
+    </script>
+
 </body>
 </html>
