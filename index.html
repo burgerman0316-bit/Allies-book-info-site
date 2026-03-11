@@ -317,17 +317,23 @@
 
           shrink() {
             this.isClosing = true;
+            
+            // Immediately remove the "open" state styling for the border
+            // by manually setting the border color to match your :root --border
+            this.el.style.borderColor = 'var(--border)';
+        
             const startHeight = `${this.el.offsetHeight}px`;
             const endHeight = `${this.summary.offsetHeight}px`;
+        
             if (this.animation) this.animation.cancel();
-            
+        
             this.animation = this.el.animate({
               height: [startHeight, endHeight]
             }, {
               duration: 400,
               easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
             });
-            
+        
             this.animation.onfinish = () => this.onAnimationFinish(false);
           }
 
