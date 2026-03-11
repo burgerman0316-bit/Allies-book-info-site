@@ -139,14 +139,14 @@
 <body>
 
     <nav id="navbar">
-        <a onclick="showPage('home')" class="active">COVER</a>
-        <a onclick="showPage('wwii')">WWII</a>
+        <a onclick="showPage('home')" class="active">HOME</a>
+        <a onclick="showPage('wwii')">WORLD WAR II</a>
         <a onclick="showPage('summaries')">SUMMARIES</a>
-        <a onclick="showPage('setting')">SETTING</a>
+        <a onclick="showPage('sections')">SECTIONS</a>
         <a onclick="showPage('conflict')">CONFLICT</a>
-        <a onclick="showPage('characters')">CHARACTERS</a>
+        <a onclick="showPage('pov')">CHARACTERS</a>
         <a onclick="showPage('theme')">THEME</a>
-        <a onclick="showPage('resources')">RESOURCES</a>
+        <a onclick="showPage('questions')">QUESTIONS AND RESOURCES</a>
     </nav>
 
     <div id="home" class="page active">
@@ -162,7 +162,7 @@
 
     <div id="wwii" class="page">
         <div class="container">
-            <h2>WWII / HOLOCAUST</h2>
+            <h2>WORLD WAR II</h2>
             <details>
                 <summary>INFO</summary>
                 <div class="content-inner"><p>[ ]</p></div>
@@ -180,13 +180,13 @@
         </div>
     </div>
 
-    <div id="setting" class="page">
+    <div id="sections" class="page">
         <div class="container">
-            <h2>SETTING</h2>
-            <details>
-                <summary>SETTING INFO</summary>
-                <div class="content-inner"><p>[ ]</p></div>
-            </details>
+            <h2>SECTIONS</h2>
+            <details><summary>SECTION I</summary><div class="content-inner"><p>[ ]</p></div></details>
+            <details><summary>SECTION II</summary><div class="content-inner"><p>[ ]</p></div></details>
+            <details><summary>SECTION III</summary><div class="content-inner"><p>[ ]</p></div></details>
+            <details><summary>SECTION IV</summary><div class="content-inner"><p>[ ]</p></div></details>
         </div>
     </div>
 
@@ -194,13 +194,13 @@
         <div class="container">
             <h2>CONFLICT</h2>
             <details>
-                <summary>CONFLICT INFO</summary>
+                <summary>CONFLICT</summary>
                 <div class="content-inner"><p>[ ]</p></div>
             </details>
         </div>
     </div>
 
-    <div id="characters" class="page">
+    <div id="pov" class="page">
         <div class="container">
             <h2>CHARACTERS</h2>
             <div class="grid">
@@ -224,9 +224,9 @@
         </div>
     </div>
 
-    <div id="resources" class="page">
+    <div id="questions" class="page">
         <div class="container">
-            <h2>QUESTIONS & RESOURCES</h2>
+            <h2>QUESTIONS AND RESOURCES</h2>
             <details>
                 <summary>QUESTIONS</summary>
                 <div class="content-inner"><p>[ ]</p></div>
@@ -247,7 +247,7 @@
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
             document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-            event.currentTarget.classList.add('active');
+            if (event) event.currentTarget.classList.add('active');
             window.scrollTo(0,0);
         }
 
