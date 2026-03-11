@@ -57,13 +57,12 @@
             letter-spacing: 1px;
             cursor: pointer;
             padding: 8px 12px;
-            font-weight: 400; /* Base weight */
+            font-weight: 400;
             opacity: 0.5;
             transition: opacity 0.1s, font-weight 0.1s;
             outline: none !important;
         }
 
-        /* ACTIVE state: Bold only, no glow */
         nav a.active {
             opacity: 1;
             font-weight: 900;
@@ -114,6 +113,11 @@
 
         details[open] { border-color: var(--text-main); }
 
+        /* FIX: Prevents nested boxes from looking "edge-to-edge" */
+        details details {
+            margin: 0 24px 24px 24px;
+        }
+
         summary {
             padding: 24px;
             font-weight: 900;
@@ -130,7 +134,7 @@
         }
 
         .grid {
-            display: grid;
+            display: flex; /* Changed from grid to flex for stacking */
             flex-direction: column;
             gap: 20px;
         }
@@ -160,8 +164,6 @@
         <header>
             <img src="Allies logo.png" alt="Allies" style="width: 100%; max-width: 500px;"> 
             <p style="letter-spacing: 8px; font-size: 1.8rem; margin-top: 30px;">BY: ALAN GRATZ</p>
-            <div style="margin-top: 60px; color: var(--text-dim);">
-            </div>
         </header>
     </div>
 
@@ -178,7 +180,7 @@
     <div id="summaries" class="page">
         <div class="container">
             <h2>SUMMARIES</h2>
-            <details><summary>SECTION I SUMMARY</summary><div class="content-inner"><p>The book begins with Dougles "Dee" Carpenter, a 16-year-old American soldier riding in a landing boat toward Omaha Beach in France. He is nervous because he has never been in real combat before. His friend Sid Jacobstein is with him and tries to calm him down. Dee as a secret, his real name is Dietrich Zimmerman, he was actually born in Germany but escaped the Nazis when he was younger, and he joined the U.S Army to fight the Nazis to get back to what they did to his family. As the soldiers get closer to the beach, the Germans start shooting at them from bunkers. When the landing boat door opens, many soldiers are hit immediately. The beach becomes extremely chaotic, Machine guns are firing, Explosions are everywhere, and soldiers are trying to reach cover behind obstacles. Dee jumps into the water and struggles to survive while trying to move forward. The book switches perspective between perspectives in the book, one of them is an 11-year-old girl living  in German-occupied France, her mother has been captured by the German soldiers, Samira wants to warn the French Resistance that the Allied invasion is starting, she risks her own life traveling through areas controlled by the Germans. The first part of the books shows how terrifying and confusing the invasion is. Soldiers are scared, wounded, or killed around Dee. Meanwhile Samira tries to sneak past German guards. She must be brave and clever to avoid being caught.</p></div></details>
+            <details><summary>SECTION I SUMMARY</summary><div class="content-inner"><p>The book begins with Dougles "Dee" Carpenter, a 16-year-old American soldier riding in a landing boat toward Omaha Beach in France. He is nervous because he has never been in real combat before. His friend Sid Jacobstein is with him and tries to calm him down. Dee as a secret, his real name is Dietrich Zimmerman, he was actually born in Germany but escaped the Nazis when he was younger, and he joined the U.S Army to fight the Nazis to get back to what they did to his family. As the soldiers get closer to the beach, the Germans start shooting at them from bunkers. When the landing boat door opens, many soldiers are hit immediately. The beach becomes extremely chaotic, Machine guns are firing, Explosions are everywhere, and soldiers are trying to reach cover behind obstacles. Dee jumps into the water and struggles to survive while trying to move forward. The book switches perspective between perspectives in the book, one of them is an 11-year-old girl living in German-occupied France, her mother has been captured by the German soldiers, Samira wants to warn the French Resistance that the Allied invasion is starting, she risks her own life traveling through areas controlled by the Germans. The first part of the books shows how terrifying and confusing the invasion is. Soldiers are scared, wounded, or killed around Dee. Meanwhile Samira tries to sneak past German guards. She must be brave and clever to avoid being caught.</p></div></details>
             <details><summary>SECTION II SUMMARY</summary><div class="content-inner"><p>[ ]</p></div></details>
             <details><summary>SECTION III SUMMARY</summary><div class="content-inner"><p>[ ]</p></div></details>
             <details><summary>SECTION IV SUMMARY</summary><div class="content-inner"><p>[ ]</p></div></details>
@@ -257,24 +259,11 @@
     <script>
         function showPage(element, pageId) {
             element.blur();
-
-            // 1. Clear active state from all nav links
-            document.querySelectorAll('nav a').forEach(a => {
-                a.classList.remove('active');
-            });
-
-            // 2. Hide all pages
-            document.querySelectorAll('.page').forEach(p => {
-                p.classList.remove('active');
-            });
-
-            // 3. Set the clicked link to BOLD and show the page
+            document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             element.classList.add('active');
             const targetPage = document.getElementById(pageId);
-            if (targetPage) {
-                targetPage.classList.add('active');
-            }
-
+            if (targetPage) targetPage.classList.add('active');
             window.scrollTo(0, 0);
         }
 
@@ -282,7 +271,7 @@
           constructor(el) {
             this.el = el;
             this.summary = el.querySelector('summary');
-            this.content = el.querySelector('.content-inner');
+            // Simplified content detection
             this.animation = null;
             this.isClosing = false;
             this.isExpanding = false;
@@ -291,6 +280,8 @@
 
           onClick(e) {
             e.preventDefault();
+            e.stopPropagation(); // FIX: Prevents child clicks from closing the parent
+
             if (this.isClosing || !this.el.open) {
               this.open();
             } else if (this.isExpanding || this.el.open) {
@@ -321,7 +312,8 @@
           expand() {
             this.isExpanding = true;
             const startHeight = `${this.el.offsetHeight}px`;
-            const endHeight = `${this.summary.offsetHeight + this.content.offsetHeight}px`;
+            // FIX: Uses scrollHeight to capture the full size of nested items and prevent snapping
+            const endHeight = `${this.el.scrollHeight}px`;
             if (this.animation) this.animation.cancel();
             this.animation = this.el.animate({ height: [startHeight, endHeight] }, { duration: 250, easing: 'ease-in-out' });
             this.animation.onfinish = () => {
