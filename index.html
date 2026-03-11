@@ -21,8 +21,6 @@
             box-sizing: border-box;
         }
 
-        html { scroll-behavior: smooth; }
-
         body {
             font-family: 'Courier New', Courier, monospace;
             font-weight: bold;
@@ -32,20 +30,22 @@
             overflow-x: hidden;
         }
 
+        /* Navigation */
         nav {
             position: fixed;
             top: 25px;
             left: 50%;
             transform: translateX(-50%);
-            width: 100%;
-            max-width: 1100px;
-            padding: 0.8rem 2.5rem;
+            width: 95%;
+            max-width: 1200px;
+            padding: 0.8rem 1.5rem;
             z-index: 1000;
             display: flex;
             justify-content: center;
-            gap: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
             background: var(--glass);
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border-radius: 100px;
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -57,50 +57,57 @@
             text-decoration: none;
             font-weight: bold;
             text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            opacity: 0.7;
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            opacity: 0.6;
             transition: 0.3s;
+            cursor: pointer;
         }
 
-        nav a:hover { opacity: 1; }
-
-        header {
-            padding: 60px 20px 60px 20px;
-            text-align: center;
+        nav a:hover, nav a.active { 
+            opacity: 1; 
+            text-shadow: 0 0 8px var(--text-main);
         }
 
-        header h1 {
-            font-size: clamp(3.5rem, 12vw, 7rem);
-            letter-spacing: 12px;
-            text-transform: uppercase;
+        /* Page System */
+        .page {
+            display: none; 
+            padding: 140px 20px 60px 20px;
+            min-height: 100vh;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .page.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .container {
             max-width: 900px;
             margin: 0 auto;
-            padding: 20px;
         }
 
-        section {
-            padding: 80px 0;
-            border-bottom: 1px solid var(--border);
-        }
+        header { text-align: center; padding: 40px 0; }
 
         h2 {
-            font-size: 1.8rem;
+            font-size: 2rem;
             margin-bottom: 30px;
             text-transform: uppercase;
             letter-spacing: 4px;
+            border-left: 5px solid var(--text-main);
+            padding-left: 15px;
         }
 
+        /* Accordion Styles */
         details {
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 8px;
             margin-bottom: 15px;
             overflow: hidden;
-            transition: border-color 0.3s ease;
+            transition: border-color 0.3s;
         }
 
         details[open] { border-color: #ffffff; }
@@ -122,126 +129,118 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
         }
 
         footer {
             text-align: center;
-            padding: 120px 20px;
-            opacity: 1;
-            font-size: 1rem;
+            padding: 60px 20px;
+            border-top: 1px solid var(--border);
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="#home">HOME</a>
-        <a href="#wwii">WORLD WAR II</a>
-        <a href="#section summaries">SUMMARIES</a>
-        <a href="#sections">SECTIONS</a>
-        <a href="#conflict">CONFLICT</a>
-        <a href="#pov">CHARACTERS</a>
-        <a href="#theme">THEME</a>
-        <a href="#questions and resources">QUESTIONS AND RESOURCES</a>
+    <nav id="navbar">
+        <a onclick="showPage('home')" class="active">COVER</a>
+        <a onclick="showPage('wwii')">WWII</a>
+        <a onclick="showPage('summaries')">SUMMARIES</a>
+        <a onclick="showPage('setting')">SETTING</a>
+        <a onclick="showPage('conflict')">CONFLICT</a>
+        <a onclick="showPage('characters')">CHARACTERS</a>
+        <a onclick="showPage('theme')">THEME</a>
+        <a onclick="showPage('resources')">RESOURCES</a>
     </nav>
 
-    <header id="home">
-        <img src="Allies logo.png" alt="Allies" style="margin-top: 100px; width: 485.5px; height: 219.5px;"> 
-        <p style="letter-spacing: 6px; font-size: 1.5rem; opacity: 1;">BY: ALAN GRATZ</p>
-    </header>
+    <div id="home" class="page active">
+        <header>
+            <img src="Allies logo.png" alt="Allies" style="width: 100%; max-width: 500px;"> 
+            <p style="letter-spacing: 8px; font-size: 1.8rem; margin-top: 20px;">BY: ALAN GRATZ</p>
+            <div style="margin-top: 60px; color: var(--text-dim);">
+                <p>LIT CIRCLES PROJECT</p>
+                <p>DIESEL AND MASON &bull; 2026</p>
+            </div>
+        </header>
+    </div>
 
-    <div class="container"> 
-        <section id="wwii">
-            <h2>WORLD WAR II</h2>
-            <details name="global-accordion">
-                <summary>INFO</summary>
-                <div class="content-inner">
-                    <p>[ ]</p>
-                </div>
+    <div id="wwii" class="page">
+        <div class="container">
+            <h2>WWII / HOLOCAUST</h2>
+            <details>
+                <summary>HISTORICAL BACKGROUND</summary>
+                <div class="content-inner"><p>[ Insert WWII/Holocaust info here ]</p></div>
             </details>
-        </section>
+        </div>
+    </div>
 
-        <section id="sections">
-            <h2>SECTIONS</h2>
-            <details name="global-accordion">
-                <summary>SECTION I</summary>
-                <div class="content-inner"><p>[ ]</p></div>
-            </details>
-            <details name="global-accordion">
-                <summary>SECTION II</summary>
-                <div class="content-inner"><p>[ ]</p></div>
-            </details>
-            <details name="global-accordion">
-                <summary>SECTION III</summary>
-                <div class="content-inner"><p>[ ]</p></div>
-            </details>
-            <details name="global-accordion">
-                <summary>SECTION IV</summary>
-                <div class="content-inner"><p>[ ]</p></div>
-            </details>
-        </section>
+    <div id="summaries" class="page">
+        <div class="container">
+            <h2>SECTION SUMMARIES</h2>
+            <details><summary>SECTION I</summary><div class="content-inner"><p>[ ]</p></div></details>
+            <details><summary>SECTION II</summary><div class="content-inner"><p>[ ]</p></div></details>
+            <details><summary>SECTION III</summary><div class="content-inner"><p>[ ]</p></div></details>
+            <details><summary>SECTION IV</summary><div class="content-inner"><p>[ ]</p></div></details>
+        </div>
+    </div>
 
-        <section id="section summaries">
-            <h2>SUMMARIES</h2>
-            <details name="global-accordion">
-                <summary>SECTION I SUMMARY</summary>
-                <div class="content-inner"><p>[ ]</p></div>
+    <div id="setting" class="page">
+        <div class="container">
+            <h2>SETTING</h2>
+            <details>
+                <summary>WHERE AND WHEN</summary>
+                <div class="content-inner"><p>[ Insert details about the location/time period ]</p></div>
             </details>
-            <details name="global-accordion">
-                <summary>SECTION II SUMMARY</summary>
-                <div class="content-inner"><p>[ ]</p></div>
-            </details>
-            <details name="global-accordion">
-                <summary>SECTION III SUMMARY</summary>
-                <div class="content-inner"><p>[ ]</p></div>
-            </details>
-            <details name="global-accordion">
-                <summary>SECTION IV SUMMARY</summary>
-                <div class="content-inner"><p>[ ]</p></div>
-            </details>
-        </section>
+        </div>
+    </div>
 
-        <section id="conflict">
+    <div id="conflict" class="page">
+        <div class="container">
             <h2>CONFLICT</h2>
-            <details name="global-accordion">
-                <summary>CONFLICT</summary>
-                <div class="content-inner"><p>[ ]</p></div>
+            <details>
+                <summary>PRIMARY CONFLICTS</summary>
+                <div class="content-inner"><p>[ Describe internal/external conflicts ]</p></div>
             </details>
-        </section>
+        </div>
+    </div>
 
-        <section id="pov">
+    <div id="characters" class="page">
+        <div class="container">
             <h2>CHARACTERS</h2>
             <div class="grid">
-                <details name="global-accordion"><summary>CHARACTER I</summary><div class="content-inner"><p>[ ]</p></div></details>
-                <details name="global-accordion"><summary>CHARACTER II</summary><div class="content-inner"><p>[ ]</p></div></details>
-                <details name="global-accordion"><summary>CHARACTER III</summary><div class="content-inner"><p>[ ]</p></div></details>
-                <details name="global-accordion"><summary>CHARACTER IV</summary><div class="content-inner"><p>[ ]</p></div></details>
-                <details name="global-accordion"><summary>CHARACTER V</summary><div class="content-inner"><p>[ ]</p></div></details>
-                <details name="global-accordion"><summary>CHARACTER VI</summary><div class="content-inner"><p>[ ]</p></div></details>
+                <details><summary>CHARACTER I</summary><div class="content-inner"><p>[ ]</p></div></details>
+                <details><summary>CHARACTER II</summary><div class="content-inner"><p>[ ]</p></div></details>
+                <details><summary>CHARACTER III</summary><div class="content-inner"><p>[ ]</p></div></details>
+                <details><summary>CHARACTER IV</summary><div class="content-inner"><p>[ ]</p></div></details>
+                <details><summary>CHARACTER V</summary><div class="content-inner"><p>[ ]</p></div></details>
+                <details><summary>CHARACTER VI</summary><div class="content-inner"><p>[ ]</p></div></details>
             </div>
-        </section>
+        </div>
+    </div>
 
-        <section id="theme">
+    <div id="theme" class="page">
+        <div class="container">
             <h2>THEME</h2>
-            <details name="global-accordion">
-                <summary>MAIN IDEA</summary>
-                <div class="content-inner"><p>[ ]</p></div>
+            <details>
+                <summary>THE MAIN IDEA</summary>
+                <div class="content-inner"><p>[ Explain the theme/message ]</p></div>
             </details>
-        </section>
+        </div>
+    </div>
 
-        <section id="questions and resources">
-            <h2>QUESTION AND RESOURCES</h2>
-            <details name="global-accordion">
-                <summary>QUESTIONS</summary>
-                <div class="content-inner"><p>[ ]</p></div>
+    <div id="resources" class="page">
+        <div class="container">
+            <h2>QUESTIONS & RESOURCES</h2>
+            <details>
+                <summary>DISCUSSION QUESTIONS</summary>
+                <div class="content-inner"><p>[ List your questions ]</p></div>
             </details>
-            <details name="global-accordion">
+            <details>
                 <summary>RESOURCES</summary>
-                <div class="content-inner"><p>[ ]</p></div>
+                <div class="content-inner"><p>[ List your sources/links ]</p></div>
             </details>
-        </section>
+        </div>
     </div>
 
     <footer>
@@ -249,6 +248,21 @@
     </footer>
 
     <script>
+        // PAGE NAVIGATION
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update active link style
+            document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            window.scrollTo(0,0);
+        }
+
+        // SMOOTH ACCORDION LOGIC
         class Accordion {
           constructor(el) {
             this.el = el;
@@ -262,49 +276,25 @@
 
           onClick(e) {
             e.preventDefault();
-            this.el.style.overflow = 'hidden';
-
             if (this.isClosing || !this.el.open) {
-              // Strict rule: close EVERYTHING else before opening this one
-              this.closeAllOthers();
               this.open();
             } else if (this.isExpanding || this.el.open) {
               this.shrink();
             }
           }
 
-          closeAllOthers() {
-            // Find every details element on the entire page
-            document.querySelectorAll('details').forEach((details) => {
-              if (details !== this.el && details.open) {
-                const instance = details.__accordionInstance;
-                if (instance) {
-                  instance.shrink();
-                } else {
-                  details.open = false;
-                }
-              }
-            });
-          }
-
           shrink() {
-            if (this.isClosing) return;
             this.isClosing = true;
-            this.el.style.borderColor = 'var(--border)';
-        
             const startHeight = `${this.el.offsetHeight}px`;
             const endHeight = `${this.summary.offsetHeight}px`;
-        
             if (this.animation) this.animation.cancel();
-        
-            this.animation = this.el.animate({
-              height: [startHeight, endHeight]
-            }, {
-              duration: 400,
-              easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
-            });
-        
-            this.animation.onfinish = () => this.onAnimationFinish(false);
+            this.animation = this.el.animate({ height: [startHeight, endHeight] }, { duration: 400, easing: 'ease-out' });
+            this.animation.onfinish = () => {
+                this.el.open = false;
+                this.animation = null;
+                this.isClosing = false;
+                this.el.style.height = '';
+            };
           }
 
           open() {
@@ -317,32 +307,17 @@
             this.isExpanding = true;
             const startHeight = `${this.el.offsetHeight}px`;
             const endHeight = `${this.summary.offsetHeight + this.content.offsetHeight}px`;
-            
             if (this.animation) this.animation.cancel();
-            
-            this.animation = this.el.animate({
-              height: [startHeight, endHeight]
-            }, {
-              duration: 400,
-              easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
-            });
-            
-            this.animation.onfinish = () => this.onAnimationFinish(true);
-          }
-
-          onAnimationFinish(open) {
-            this.el.open = open;
-            this.animation = null;
-            this.isClosing = false;
-            this.isExpanding = false;
-            this.el.style.height = this.el.style.overflow = '';
-            this.el.style.borderColor = '';
+            this.animation = this.el.animate({ height: [startHeight, endHeight] }, { duration: 400, easing: 'ease-out' });
+            this.animation.onfinish = () => {
+                this.animation = null;
+                this.isExpanding = false;
+                this.el.style.height = '';
+            };
           }
         }
 
-        document.querySelectorAll('details').forEach((el) => {
-          el.__accordionInstance = new Accordion(el);
-        });
+        document.querySelectorAll('details').forEach((el) => new Accordion(el));
     </script>
 </body>
 </html>
