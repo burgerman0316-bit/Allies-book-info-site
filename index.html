@@ -19,7 +19,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent; /* Removes blue flash on mobile */
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -60,21 +60,23 @@
             font-size: 0.65rem;
             letter-spacing: 1px;
             opacity: 0.5;
-            transition: all 0.3s ease;
+            transition: opacity 0.2s ease, text-shadow 0.2s ease;
             cursor: pointer;
             padding: 5px 10px;
-            outline: none; /* Removes default browser outline */
+            outline: none !important; /* Forces the square outline away */
+            user-select: none;
         }
 
-        /* The Glow Effect */
-        nav a:hover, nav a.active { 
+        /* ONLY the active tab or a hovered tab gets the glow */
+        nav a.active, nav a:hover { 
             opacity: 1; 
             text-shadow: 0 0 12px var(--text-main), 0 0 20px var(--text-main);
         }
 
-        /* Ensure no ghost glow from browser focus */
-        nav a:focus {
-            outline: none;
+        /* Prevents the browser focus "square" */
+        nav a:focus, nav a:active {
+            outline: none !important;
+            box-shadow: none !important;
         }
 
         .page {
@@ -151,14 +153,14 @@
 <body>
 
     <nav id="navbar">
-        <a onclick="showPage(event, 'home')" class="active">HOME</a>
-        <a onclick="showPage(event, 'wwii')">WORLD WAR II</a>
-        <a onclick="showPage(event, 'summaries')">SUMMARIES</a>
-        <a onclick="showPage(event, 'sections')">SECTIONS</a>
-        <a onclick="showPage(event, 'conflict')">CONFLICT</a>
-        <a onclick="showPage(event, 'pov')">CHARACTERS</a>
-        <a onclick="showPage(event, 'theme')">THEME</a>
-        <a onclick="showPage(event, 'questions')">QUESTIONS AND RESOURCES</a>
+        <a onclick="showPage(this, 'home')" class="active">HOME</a>
+        <a onclick="showPage(this, 'wwii')">WORLD WAR II</a>
+        <a onclick="showPage(this, 'summaries')">SUMMARIES</a>
+        <a onclick="showPage(this, 'sections')">SECTIONS</a>
+        <a onclick="showPage(this, 'conflict')">CONFLICT</a>
+        <a onclick="showPage(this, 'pov')">CHARACTERS</a>
+        <a onclick="showPage(this, 'theme')">THEME</a>
+        <a onclick="showPage(this, 'questions')">QUESTIONS AND RESOURCES</a>
     </nav>
 
     <div id="home" class="page active">
@@ -255,33 +257,29 @@
     </footer>
 
     <script>
-        function showPage(event, pageId) {
-            // Force browser to remove focus (glow) from the clicked element
-            if (document.activeElement) {
-                document.activeElement.blur();
-            }
+        function showPage(element, pageId) {
+            // Remove focus/glow from the element immediately
+            element.blur();
 
-            // 1. Clear active class from all nav links
+            // 1. Remove active class from ALL links immediately
             document.querySelectorAll('nav a').forEach(a => {
                 a.classList.remove('active');
             });
 
-            // 2. Add active class to clicked link
-            event.currentTarget.classList.add('active');
-
-            // 3. Hide all pages
+            // 2. Hide all pages
             document.querySelectorAll('.page').forEach(p => {
                 p.classList.remove('active');
             });
 
-            // 4. Show the selected page
-            const selectedPage = document.getElementById(pageId);
-            if (selectedPage) {
-                selectedPage.classList.add('active');
+            // 3. Set the new active link and page
+            element.classList.add('active');
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
             }
 
-            // 5. Scroll back to top
-            window.scrollTo(0,0);
+            // 4. Scroll to top
+            window.scrollTo(0, 0);
         }
 
         class Accordion {
