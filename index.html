@@ -12,7 +12,7 @@
             --text-dim: #808080;
             --border: #222222;
             --card-bg: #0a0a0a;
-            --glass: rgba(255, 255, 255, 0.08);
+            --glass: rgba(15, 15, 15, 0.95);
         }
 
         * {
@@ -24,10 +24,9 @@
 
         body {
             font-family: 'Courier New', Courier, monospace;
-            font-weight: bold;
             background-color: var(--bg);
             color: var(--text-main);
-            line-height: 1.8;
+            line-height: 1.6;
             overflow-x: hidden;
         }
 
@@ -38,42 +37,39 @@
             transform: translateX(-50%);
             width: 95%;
             max-width: 1200px;
-            padding: 1.2rem 1.5rem;
+            padding: 1.2rem;
             z-index: 1000;
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             gap: 15px;
             background: var(--glass);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(10px);
             border-radius: 100px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border);
         }
 
         nav a {
             color: var(--text-main);
             text-decoration: none;
-            font-weight: bold;
             text-transform: uppercase;
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             letter-spacing: 1px;
-            opacity: 0.5;
-            transition: opacity 0.2s ease, text-shadow 0.2s ease;
             cursor: pointer;
-            padding: 5px 10px;
-            outline: none !important; /* Forces the square outline away */
-            user-select: none;
+            padding: 8px 12px;
+            font-weight: 400; /* Base weight */
+            opacity: 0.5;
+            transition: opacity 0.1s, font-weight 0.1s;
+            outline: none !important;
         }
 
-        /* ONLY the active tab or a hovered tab gets the glow */
-        nav a.active, nav a:hover { 
-            opacity: 1; 
-            text-shadow: 0 0 12px var(--text-main), 0 0 20px var(--text-main);
+        /* ACTIVE state: Bold only, no glow */
+        nav a.active {
+            opacity: 1;
+            font-weight: 900;
+            text-shadow: none;
         }
 
-        /* Prevents the browser focus "square" */
         nav a:focus, nav a:active {
             outline: none !important;
             box-shadow: none !important;
@@ -94,7 +90,7 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
         }
 
@@ -114,16 +110,15 @@
             border-radius: 8px;
             margin-bottom: 20px;
             overflow: hidden;
-            transition: border-color 0.2s;
         }
 
-        details[open] { border-color: #ffffff; }
+        details[open] { border-color: var(--text-main); }
 
         summary {
             padding: 24px;
-            font-weight: bold;
+            font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             list-style: none;
             cursor: pointer;
             outline: none;
@@ -132,7 +127,6 @@
         .content-inner {
             padding: 0 24px 24px 24px;
             color: var(--text-dim);
-            font-size: 1rem;
         }
 
         .grid {
@@ -146,28 +140,27 @@
             padding: 60px 20px;
             border-top: 1px solid var(--border);
             font-size: 0.9rem;
-            letter-spacing: 2px;
         }
     </style>
 </head>
 <body>
 
     <nav id="navbar">
-        <a onclick="showPage(this, 'home')" class="active">HOME</a>
-        <a onclick="showPage(this, 'wwii')">WORLD WAR II</a>
+        <a onclick="showPage(this, 'home')" class="active">COVER</a>
+        <a onclick="showPage(this, 'wwii')">WWII</a>
         <a onclick="showPage(this, 'summaries')">SUMMARIES</a>
-        <a onclick="showPage(this, 'sections')">SECTIONS</a>
+        <a onclick="showPage(this, 'setting')">SETTING</a>
         <a onclick="showPage(this, 'conflict')">CONFLICT</a>
         <a onclick="showPage(this, 'pov')">CHARACTERS</a>
         <a onclick="showPage(this, 'theme')">THEME</a>
-        <a onclick="showPage(this, 'questions')">QUESTIONS AND RESOURCES</a>
+        <a onclick="showPage(this, 'questions')">RESOURCES</a>
     </nav>
 
     <div id="home" class="page active">
         <header>
             <img src="Allies logo.png" alt="Allies" style="width: 100%; max-width: 500px;"> 
             <p style="letter-spacing: 8px; font-size: 1.8rem; margin-top: 30px;">BY: ALAN GRATZ</p>
-            <div style="margin-top: 80px; color: var(--text-dim); letter-spacing: 4px;">
+            <div style="margin-top: 60px; color: var(--text-dim);">
                 <p>LIT CIRCLES PROJECT</p>
                 <p>DIESEL AND MASON &bull; 2026</p>
             </div>
@@ -176,7 +169,7 @@
 
     <div id="wwii" class="page">
         <div class="container">
-            <h2>WORLD WAR II</h2>
+            <h2>WWII</h2>
             <details>
                 <summary>INFO</summary>
                 <div class="content-inner"><p>[ ]</p></div>
@@ -194,13 +187,13 @@
         </div>
     </div>
 
-    <div id="sections" class="page">
+    <div id="setting" class="page">
         <div class="container">
-            <h2>SECTIONS</h2>
-            <details><summary>SECTION I</summary><div class="content-inner"><p>[ ]</p></div></details>
-            <details><summary>SECTION II</summary><div class="content-inner"><p>[ ]</p></div></details>
-            <details><summary>SECTION III</summary><div class="content-inner"><p>[ ]</p></div></details>
-            <details><summary>SECTION IV</summary><div class="content-inner"><p>[ ]</p></div></details>
+            <h2>SETTING</h2>
+            <details>
+                <summary>SETTING INFO</summary>
+                <div class="content-inner"><p>[ ]</p></div>
+            </details>
         </div>
     </div>
 
@@ -208,7 +201,7 @@
         <div class="container">
             <h2>CONFLICT</h2>
             <details>
-                <summary>CONFLICT</summary>
+                <summary>CONFLICT INFO</summary>
                 <div class="content-inner"><p>[ ]</p></div>
             </details>
         </div>
@@ -240,7 +233,7 @@
 
     <div id="questions" class="page">
         <div class="container">
-            <h2>QUESTIONS AND RESOURCES</h2>
+            <h2>RESOURCES</h2>
             <details>
                 <summary>QUESTIONS</summary>
                 <div class="content-inner"><p>[ ]</p></div>
@@ -258,10 +251,9 @@
 
     <script>
         function showPage(element, pageId) {
-            // Remove focus/glow from the element immediately
             element.blur();
 
-            // 1. Remove active class from ALL links immediately
+            // 1. Clear active state from all nav links
             document.querySelectorAll('nav a').forEach(a => {
                 a.classList.remove('active');
             });
@@ -271,14 +263,13 @@
                 p.classList.remove('active');
             });
 
-            // 3. Set the new active link and page
+            // 3. Set the clicked link to BOLD and show the page
             element.classList.add('active');
             const targetPage = document.getElementById(pageId);
             if (targetPage) {
                 targetPage.classList.add('active');
             }
 
-            // 4. Scroll to top
             window.scrollTo(0, 0);
         }
 
