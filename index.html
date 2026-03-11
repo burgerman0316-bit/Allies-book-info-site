@@ -19,6 +19,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent; /* Removes blue flash on mobile */
         }
 
         body {
@@ -35,8 +36,8 @@
             top: 25px;
             left: 50%;
             transform: translateX(-50%);
-            width: 100%;
-            max-width: 1100px;
+            width: 95%;
+            max-width: 1200px;
             padding: 1.2rem 1.5rem;
             z-index: 1000;
             display: flex;
@@ -62,11 +63,18 @@
             transition: all 0.3s ease;
             cursor: pointer;
             padding: 5px 10px;
+            outline: none; /* Removes default browser outline */
         }
 
+        /* The Glow Effect */
         nav a:hover, nav a.active { 
             opacity: 1; 
             text-shadow: 0 0 12px var(--text-main), 0 0 20px var(--text-main);
+        }
+
+        /* Ensure no ghost glow from browser focus */
+        nav a:focus {
+            outline: none;
         }
 
         .page {
@@ -248,6 +256,11 @@
 
     <script>
         function showPage(event, pageId) {
+            // Force browser to remove focus (glow) from the clicked element
+            if (document.activeElement) {
+                document.activeElement.blur();
+            }
+
             // 1. Clear active class from all nav links
             document.querySelectorAll('nav a').forEach(a => {
                 a.classList.remove('active');
