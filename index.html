@@ -174,16 +174,6 @@
         </div>
     </div>
 
-    <!-- <div id="summaries" class="page">
-        <div class="container">
-            <h2>SUMMARIES</h2>
-            <details><summary>SECTION I SUMMARY</summary><div class="content-inner"><p>THE BOOK BEGINS WITH DOUGLES "DEE" CARPENTER, A 16-YEAR-OLD AMERICAN SOLDIER RIDING IN A LANDING BOAT TOWARD OMAHA BEACH IN FRANCE. HE IS NERVOUS BECAUSE HE HAS NEVER BEEN IN REAL COMBAT BEFORE. HIS FRIEND SID JACOBSTEIN IS WITH HIM AND TRIES TO CALM HIM DOWN. DEE AS A SECRET, HIS REAL NAME IS DIETRICH ZIMMERMAN, HE WAS ACTUALLY BORN IN GERMANY BUT ESCAPED THE NAZIS WHEN HE WAS YOUNGER, AND HE JOINED THE U.S ARMY TO FIGHT THE NAZIS TO GET BACK TO WHAT THEY DID TO HIS FAMILY. AS THE SOLDIERS GET CLOSER TO THE BEACH, THE GERMANS START SHOOTING AT THEM FROM BUNKERS. WHEN THE LANDING BOAT DOOR OPENS, MANY SOLDIERS ARE HIT IMMEDIATELY. THE BEACH BECOMES EXTREMELY CHAOTIC, MACHINE GUNS ARE FIRING, EXPLOSIONS ARE EVERYWHERE, AND SOLDIERS ARE TRYING TO REACH COVER BEHIND OBSTACLES. DEE JUMPS INTO THE WATER AND STRUGGLES TO SURVIVE WHILE TRYING TO MOVE FORWARD. THE BOOK SWITCHES PERSPECTIVE BETWEEN PERSPECTIVES IN THE BOOK, ONE OF THEM IS AN 11-YEAR-OLD GIRL LIVING  IN GERMAN-OCCUPIED FRANCE, HER MOTHER HAS BEEN CAPTURED BY THE GERMAN SOLDIERS, SAMIRA WANTS TO WARN THE FRENCH RESISTANCE THAT THE ALLIED INVASION IS STARTING, SHE RISKS HER OWN LIFE TRAVELING THROUGH AREAS CONTROLLED BY THE GERMANS. THE FIRST PART OF THE BOOKS SHOWS HOW TERRIFYING AND CONFUSING THE INVASION IS. SOLDIERS ARE SCARED, WOUNDED, OR KILLED AROUND DEE. MEANWHILE SAMIRA TRIES TO SNEAK PAST GERMAN GUARDS. SHE MUST BE BRAVE AND CLEVER TO AVOID BEING CAUGHT.</p></div></details>
-            <details><summary>SECTION II SUMMARY</summary><div class="content-inner"><p>[ ]</p></div></details>
-            <details><summary>SECTION III SUMMARY</summary><div class="content-inner"><p>[ ]</p></div></details>
-            <details><summary>SECTION IV SUMMARY</summary><div class="content-inner"><p>[ ]</p></div></details>
-        </div>
-    </div> -->
-
     <div id="setting" class="page">
         <div class="container">
             <h2>SUMMARY/SETTING</h2>
@@ -333,10 +323,6 @@
         </div>
     </div>
 
-    <!-- <footer>
-        <p>&bull; DIESEL AND MASON &bull;</p>
-    </footer> -->
-
     <script>
         function showPage(element, pageId) {
             element.blur();
@@ -352,7 +338,6 @@
           constructor(el) {
             this.el = el;
             this.summary = el.querySelector('summary');
-            // Simplified content detection
             this.animation = null;
             this.isClosing = false;
             this.isExpanding = false;
@@ -361,7 +346,7 @@
 
           onClick(e) {
             e.preventDefault();
-            e.stopPropagation(); // FIX: Prevents child clicks from closing the parent
+            e.stopPropagation();
 
             if (this.isClosing || !this.el.open) {
               this.open();
@@ -380,9 +365,15 @@
             this.animation = this.el.animate({ height: [startHeight, endHeight] }, { duration: 250, easing: 'ease-in-out' });
 
             this.el.style.height = startHeight;
-            this.el.open = false;
-
+            
             this.animation.onfinish = () => {
+                // FIX: When the parent closes, find all nested details and close them too
+                this.el.querySelectorAll('details').forEach(child => {
+                    child.open = false;
+                    child.style.height = ''; 
+                });
+                
+                this.el.open = false;
                 this.animation = null;
                 this.isClosing = false;
                 this.el.style.height = '';
@@ -398,9 +389,10 @@
           expand() {
             this.isExpanding = true;
             const startHeight = `${this.el.offsetHeight}px`;
-            // FIX: Uses scrollHeight to capture the full size of nested items and prevent snapping
             const endHeight = `${this.el.scrollHeight}px`;
+            
             if (this.animation) this.animation.cancel();
+            
             this.animation = this.el.animate({ height: [startHeight, endHeight] }, { duration: 250, easing: 'ease-in-out' });
             this.animation.onfinish = () => {
                 this.animation = null;
