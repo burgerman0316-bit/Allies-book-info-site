@@ -150,7 +150,7 @@
     <nav id="navbar">
         <a onclick="showPage(this, 'home')" class="active">HOME</a>
         <a onclick="showPage(this, 'wwii')">WORLD WAR II</a>
-        <a onclick="showPage(this, 'setting')">SUMMARY/SETTING</a>
+        <a onclick="showPage(this, 'setting')" id="nav-setting">SUMMARY/SETTING</a>
         <a onclick="showPage(this, 'conflict')">CONFLICT</a>
         <a onclick="showPage(this, 'pov')">CHARACTERS</a>
         <a onclick="showPage(this, 'theme')">THEME</a>
@@ -358,28 +358,28 @@
           shrink() {
             this.isClosing = true;
             
-            // 1. Capture the CURRENT expanded height (with children open)
+            // 1. Lock the current height so it doesn't jump
             const startHeight = `${this.el.offsetHeight}px`;
-            
-            // 2. IMMEDIATELY close all nested children so the browser knows 
-            // the target height of the parent is just the summary.
-            const children = this.el.querySelectorAll('details');
+            this.el.style.height = startHeight;
+
+            // 2. Shut children instantly (hidden by the locked height)
+            const children = this.el.querySelectorAll('details[open]');
             children.forEach(child => {
                 child.open = false;
                 child.style.height = '';
             });
 
-            // 3. Now capture what the height WOULD be (just the summary)
+            // 3. Measure what the small height is supposed to be
             const endHeight = `${this.summary.offsetHeight}px`;
             
             if (this.animation) this.animation.cancel();
 
-            // 4. Animate from the "big" height to the "small" height
+            // 4. Animate down
             this.animation = this.el.animate({
               height: [startHeight, endHeight]
             }, {
-              duration: 250,
-              easing: 'ease-in-out'
+              duration: 300,
+              easing: 'cubic-bezier(0.4, 0, 0.2, 1)' // Smoother curve
             });
 
             this.animation.onfinish = () => this.onAnimationFinish(false);
@@ -401,8 +401,8 @@
             this.animation = this.el.animate({
               height: [startHeight, endHeight]
             }, {
-              duration: 250,
-              easing: 'ease-in-out'
+              duration: 300,
+              easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
             });
 
             this.animation.onfinish = () => this.onAnimationFinish(true);
