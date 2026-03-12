@@ -346,7 +346,8 @@
 
           onClick(e) {
             e.preventDefault();
-            e.stopPropagation();
+            // Allow clicking child summaries without triggering parent
+            if (e.target !== this.summary && e.target.closest('summary') !== this.summary) return;
 
             if (this.isClosing || !this.el.open) {
               this.open();
@@ -362,22 +363,14 @@
             
             if (this.animation) this.animation.cancel();
 
-            this.animation = this.el.animate({ height: [startHeight, endHeight] }, { duration: 250, easing: 'ease-in-out' });
+            this.animation = this.el.animate({
+              height: [startHeight, endHeight]
+            }, {
+              duration: 250,
+              easing: 'ease-in-out'
+            });
 
-            this.el.style.height = startHeight;
-            
-            this.animation.onfinish = () => {
-                // FIX: When the parent closes, find all nested details and close them too
-                this.el.querySelectorAll('details').forEach(child => {
-                    child.open = false;
-                    child.style.height = ''; 
-                });
-                
-                this.el.open = false;
-                this.animation = null;
-                this.isClosing = false;
-                this.el.style.height = '';
-            };
+            this.animation.onfinish = () => this.onAnimationFinish(false);
           }
 
           open() {
@@ -393,16 +386,37 @@
             
             if (this.animation) this.animation.cancel();
             
-            this.animation = this.el.animate({ height: [startHeight, endHeight] }, { duration: 250, easing: 'ease-in-out' });
-            this.animation.onfinish = () => {
-                this.animation = null;
-                this.isExpanding = false;
-                this.el.style.height = '';
-            };
+            this.animation = this.el.animate({
+              height: [startHeight, endHeight]
+            }, {
+              duration: 250,
+              easing: 'ease-in-out'
+            });
+
+            this.animation.onfinish = () => this.onAnimationFinish(true);
+          }
+
+          onAnimationFinish(open) {
+            this.el.open = open;
+            this.animation = null;
+            this.isClosing = false;
+            this.isExpanding = false;
+            this.el.style.height = '';
+
+            // CRITICAL FIX: If we just closed a parent, find all open children inside and shut them
+            if (!open) {
+                const children = this.el.querySelectorAll('details[open]');
+                children.forEach(child => {
+                    child.open = false;
+                    child.style.height = '';
+                });
+            }
           }
         }
 
-        document.querySelectorAll('details').forEach((el) => new Accordion(el));
+        document.querySelectorAll('details').forEach((el) => {
+          new Accordion(el);
+        });
     </script>
 </body>
 </html>
