@@ -334,9 +334,6 @@
             window.scrollTo(0, 0);
         }
 
-        // Global map to track Accordion instances
-        const accordionInstances = new Map();
-
         class Accordion {
           constructor(el) {
             this.el = el;
@@ -345,7 +342,6 @@
             this.isClosing = false;
             this.isExpanding = false;
             this.summary.addEventListener('click', (e) => this.onClick(e));
-            accordionInstances.set(el, this);
           }
 
           onClick(e) {
@@ -361,18 +357,24 @@
 
           shrink() {
             this.isClosing = true;
+            
+            // 1. Capture the CURRENT expanded height (with children open)
             const startHeight = `${this.el.offsetHeight}px`;
+            
+            // 2. IMMEDIATELY close all nested children so the browser knows 
+            // the target height of the parent is just the summary.
+            const children = this.el.querySelectorAll('details');
+            children.forEach(child => {
+                child.open = false;
+                child.style.height = '';
+            });
+
+            // 3. Now capture what the height WOULD be (just the summary)
             const endHeight = `${this.summary.offsetHeight}px`;
             
             if (this.animation) this.animation.cancel();
 
-            // Find all open children and tell them to shrink FIRST
-            const openChildren = this.el.querySelectorAll('details[open]');
-            openChildren.forEach(child => {
-                const instance = accordionInstances.get(child);
-                if (instance) instance.shrink();
-            });
-
+            // 4. Animate from the "big" height to the "small" height
             this.animation = this.el.animate({
               height: [startHeight, endHeight]
             }, {
