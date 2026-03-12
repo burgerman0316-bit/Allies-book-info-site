@@ -179,11 +179,9 @@
             <h2>SUMMARY/SETTING</h2>
             <details>
                 <summary>SETTING</summary>
-                <div class="content-inner">
-                    <a href="https://docs.google.com/drawings/d/14YuF7y_TUCVBs_a9k1xjdVNA1aPqdtx949EjCuPSU20/edit?usp=sharing" target="_blank" rel="noopener noreferrer">
-                        OUR FREYTAG PYRAMID
-                    </a>
-                </div>
+                <div class="content-inner"><a href="https://docs.google.com/drawings/d/14YuF7y_TUCVBs_a9k1xjdVNA1aPqdtx949EjCuPSU20/edit?usp=sharing" target="_blank" rel="noopener noreferrer">
+                    OUR FREYTAG PYRAMID
+                </a></div>
             </details>
             <details>
                 <summary>SUMMARY</summary>
@@ -336,6 +334,9 @@
             window.scrollTo(0, 0);
         }
 
+        // Global map to track Accordion instances
+        const accordionInstances = new Map();
+
         class Accordion {
           constructor(el) {
             this.el = el;
@@ -344,11 +345,11 @@
             this.isClosing = false;
             this.isExpanding = false;
             this.summary.addEventListener('click', (e) => this.onClick(e));
+            accordionInstances.set(el, this);
           }
 
           onClick(e) {
             e.preventDefault();
-            // Stop logic if we clicked a nested summary so it doesn't trigger the parent
             if (e.target !== this.summary && e.target.closest('summary') !== this.summary) return;
 
             if (this.isClosing || !this.el.open) {
@@ -365,11 +366,11 @@
             
             if (this.animation) this.animation.cancel();
 
-            // Handle children immediately to ensure the parent shrinks to the correct size
-            const children = this.el.querySelectorAll('details[open]');
-            children.forEach(child => {
-                child.removeAttribute('open');
-                child.style.height = ''; 
+            // Find all open children and tell them to shrink FIRST
+            const openChildren = this.el.querySelectorAll('details[open]');
+            openChildren.forEach(child => {
+                const instance = accordionInstances.get(child);
+                if (instance) instance.shrink();
             });
 
             this.animation = this.el.animate({
