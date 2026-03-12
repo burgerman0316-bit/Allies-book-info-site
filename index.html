@@ -179,9 +179,11 @@
             <h2>SUMMARY/SETTING</h2>
             <details>
                 <summary>SETTING</summary>
-                <div class="content-inner"><a href="https://docs.google.com/drawings/d/14YuF7y_TUCVBs_a9k1xjdVNA1aPqdtx949EjCuPSU20/edit?usp=sharing" target="_blank" rel="noopener noreferrer">
-                    OUR FREYTAG PYRAMID
-                </a></div>
+                <div class="content-inner">
+                    <a href="https://docs.google.com/drawings/d/14YuF7y_TUCVBs_a9k1xjdVNA1aPqdtx949EjCuPSU20/edit?usp=sharing" target="_blank" rel="noopener noreferrer">
+                        OUR FREYTAG PYRAMID
+                    </a>
+                </div>
             </details>
             <details>
                 <summary>SUMMARY</summary>
@@ -346,7 +348,7 @@
 
           onClick(e) {
             e.preventDefault();
-            // Allow clicking child summaries without triggering parent
+            // Stop logic if we clicked a nested summary so it doesn't trigger the parent
             if (e.target !== this.summary && e.target.closest('summary') !== this.summary) return;
 
             if (this.isClosing || !this.el.open) {
@@ -362,6 +364,13 @@
             const endHeight = `${this.summary.offsetHeight}px`;
             
             if (this.animation) this.animation.cancel();
+
+            // Handle children immediately to ensure the parent shrinks to the correct size
+            const children = this.el.querySelectorAll('details[open]');
+            children.forEach(child => {
+                child.removeAttribute('open');
+                child.style.height = ''; 
+            });
 
             this.animation = this.el.animate({
               height: [startHeight, endHeight]
@@ -402,15 +411,6 @@
             this.isClosing = false;
             this.isExpanding = false;
             this.el.style.height = '';
-
-            // CRITICAL FIX: If we just closed a parent, find all open children inside and shut them
-            if (!open) {
-                const children = this.el.querySelectorAll('details[open]');
-                children.forEach(child => {
-                    child.open = false;
-                    child.style.height = '';
-                });
-            }
           }
         }
 
