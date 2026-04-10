@@ -179,9 +179,7 @@
             <h2>SUMMARY/SETTING</h2>
             <details>
                 <summary>SETTING</summary>
-                <div class="content-inner"><a href="https://docs.google.com/drawings/d/14YuF7y_TUCVBs_a9k1xjdVNA1aPqdtx949EjCuPSU20/edit?usp=sharing" target="_blank" rel="noopener noreferrer">
-                    Our Freytag Pyramid
-                </a></div>
+                <div class="content-inner"><span>&bull; </span><a href="https://docs.google.com/drawings/d/14YuF7y_TUCVBs_a9k1xjdVNA1aPqdtx949EjCuPSU20/edit?usp=sharing" target="_blank" rel="noopener noreferrer">Our Freytag Pyramid</a></div>
             </details>
             <details>
                 <summary>5 IMPORTANT TERMS</summary>
@@ -406,28 +404,24 @@
           shrink() {
             this.isClosing = true;
             
-            // 1. Lock the current height so it doesn't jump
             const startHeight = `${this.el.offsetHeight}px`;
             this.el.style.height = startHeight;
 
-            // 2. Shut children instantly (hidden by the locked height)
             const children = this.el.querySelectorAll('details[open]');
             children.forEach(child => {
                 child.open = false;
                 child.style.height = '';
             });
 
-            // 3. Measure what the small height is supposed to be
             const endHeight = `${this.summary.offsetHeight}px`;
             
             if (this.animation) this.animation.cancel();
-
-            // 4. Animate down
+              
             this.animation = this.el.animate({
               height: [startHeight, endHeight]
             }, {
               duration: 300,
-              easing: 'cubic-bezier(0.4, 0, 0.2, 1)' // Smoother curve
+              easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
             });
 
             this.animation.onfinish = () => this.onAnimationFinish(false);
